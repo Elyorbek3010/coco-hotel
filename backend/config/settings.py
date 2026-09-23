@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rooms',
     'hotel',
     'bookings',
+    'guest_requests',
 ]
 
 MIDDLEWARE = [
@@ -156,6 +157,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'booking_submission': env('BOOKING_THROTTLE_RATE', default='5/minute'),
+        'callback_submission': env('CALLBACK_THROTTLE_RATE', default='5/minute'),
+        'contact_submission': env('CONTACT_THROTTLE_RATE', default='5/minute'),
     },
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
 }

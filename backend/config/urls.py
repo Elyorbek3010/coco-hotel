@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/v1/rooms/', include('rooms.urls')),
     path('api/v1/', include('hotel.urls')),
     path('api/v1/bookings/', include('bookings.urls')),
+    path('api/v1/', include('guest_requests.urls')),
 ]
 
 if settings.DEBUG:
