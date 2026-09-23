@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # Local apps
     'core',
     'rooms',
+    'hotel',
 ]
 
 MIDDLEWARE = [
