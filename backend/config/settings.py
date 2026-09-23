@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Local apps
     'core',
+    'rooms',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +119,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = 'static/'
+
+# Media files (uploaded room images)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Default primary key field type
