@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'core',
     'rooms',
     'hotel',
+    'bookings',
 ]
 
 MIDDLEWARE = [
@@ -150,6 +151,12 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'booking_submission': env('BOOKING_THROTTLE_RATE', default='5/minute'),
+    },
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
 }
 
