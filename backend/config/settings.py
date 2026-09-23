@@ -78,14 +78,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
-# Default SQLite configuration for local development. Neon PostgreSQL configured in later step.
+# Production PostgreSQL configuration powered by Neon. Requires DATABASE_URL in environment.
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db('DATABASE_URL'),
 }
+
 
 
 # Password validation
