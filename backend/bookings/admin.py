@@ -36,6 +36,36 @@ class BookingRequestAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
+    actions = [
+        'mark_as_contacted',
+        'mark_as_confirmed',
+        'mark_as_cancelled',
+        'mark_as_completed',
+    ]
+
+    @admin.action(description="Mark selected booking requests as CONTACTED", permissions=['change'])
+    def mark_as_contacted(self, request, queryset):
+        updated = queryset.update(status='CONTACTED')
+        if request:
+            self.message_user(request, f"{updated} booking request(s) marked as CONTACTED.")
+
+    @admin.action(description="Mark selected booking requests as CONFIRMED", permissions=['change'])
+    def mark_as_confirmed(self, request, queryset):
+        updated = queryset.update(status='CONFIRMED')
+        if request:
+            self.message_user(request, f"{updated} booking request(s) marked as CONFIRMED.")
+
+    @admin.action(description="Mark selected booking requests as CANCELLED", permissions=['change'])
+    def mark_as_cancelled(self, request, queryset):
+        updated = queryset.update(status='CANCELLED')
+        if request:
+            self.message_user(request, f"{updated} booking request(s) marked as CANCELLED.")
+
+    @admin.action(description="Mark selected booking requests as COMPLETED", permissions=['change'])
+    def mark_as_completed(self, request, queryset):
+        updated = queryset.update(status='COMPLETED')
+        if request:
+            self.message_user(request, f"{updated} booking request(s) marked as COMPLETED.")
     fieldsets = (
         ('Guest', {
             'fields': (

@@ -26,6 +26,19 @@ class CallbackRequestAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
+    actions = ['mark_as_contacted', 'mark_as_closed']
+
+    @admin.action(description="Mark selected callback requests as CONTACTED", permissions=['change'])
+    def mark_as_contacted(self, request, queryset):
+        updated = queryset.update(status='CONTACTED')
+        if request:
+            self.message_user(request, f"{updated} callback request(s) marked as CONTACTED.")
+
+    @admin.action(description="Mark selected callback requests as CLOSED", permissions=['change'])
+    def mark_as_closed(self, request, queryset):
+        updated = queryset.update(status='CLOSED')
+        if request:
+            self.message_user(request, f"{updated} callback request(s) marked as CLOSED.")
     fieldsets = (
         ('Guest', {
             'fields': (
@@ -82,6 +95,19 @@ class ContactMessageAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
+    actions = ['mark_as_contacted', 'mark_as_closed']
+
+    @admin.action(description="Mark selected contact messages as CONTACTED", permissions=['change'])
+    def mark_as_contacted(self, request, queryset):
+        updated = queryset.update(status='CONTACTED')
+        if request:
+            self.message_user(request, f"{updated} contact message(s) marked as CONTACTED.")
+
+    @admin.action(description="Mark selected contact messages as CLOSED", permissions=['change'])
+    def mark_as_closed(self, request, queryset):
+        updated = queryset.update(status='CLOSED')
+        if request:
+            self.message_user(request, f"{updated} contact message(s) marked as CLOSED.")
     fieldsets = (
         ('Guest', {
             'fields': (
