@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { getPromotionBySlug } from '../api/hotel';
 import Container from '../components/common/Container';
 import LoadingState from '../components/common/LoadingState';
@@ -12,7 +12,20 @@ export default function PromotionDetailPage() {
   const [loading, setLoading] = useState(true);
   const [errorStatus, setErrorStatus] = useState(null);
 
-  useDocumentTitle(promotion ? promotion.title : 'Special Offer');
+  const pageTitle = promotion
+    ? promotion.title
+    : errorStatus === 404
+      ? 'Offer Not Found'
+      : 'Special Offer';
+  const pageDescription = promotion?.short_description
+    ? `${promotion.title} — ${promotion.short_description}`
+    : 'Explore current Coco Hotel promotions and offers.';
+
+  usePageMeta({
+    title: pageTitle,
+    description: pageDescription,
+    canonicalPath: `/promotions/${slug}`,
+  });
 
   const handleRetry = () => {
     setLoading(true);
@@ -169,6 +182,7 @@ export default function PromotionDetailPage() {
                 <img
                   src={promotion.image}
                   alt={promotion.title}
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>

@@ -1,16 +1,18 @@
+import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
-import HomePage from '../pages/HomePage';
-import RoomsPage from '../pages/RoomsPage';
-import RoomDetailPage from '../pages/RoomDetailPage';
-import AboutPage from '../pages/AboutPage';
-import ServicesPage from '../pages/ServicesPage';
-import GalleryPage from '../pages/GalleryPage';
-import PromotionsPage from '../pages/PromotionsPage';
-import PromotionDetailPage from '../pages/PromotionDetailPage';
-import ContactPage from '../pages/ContactPage';
-import BookingPage from '../pages/BookingPage';
-import NotFoundPage from '../pages/NotFoundPage';
+
+const HomePage = lazy(() => import('../pages/HomePage'));
+const RoomsPage = lazy(() => import('../pages/RoomsPage'));
+const RoomDetailPage = lazy(() => import('../pages/RoomDetailPage'));
+const AboutPage = lazy(() => import('../pages/AboutPage'));
+const ServicesPage = lazy(() => import('../pages/ServicesPage'));
+const GalleryPage = lazy(() => import('../pages/GalleryPage'));
+const PromotionsPage = lazy(() => import('../pages/PromotionsPage'));
+const PromotionDetailPage = lazy(() => import('../pages/PromotionDetailPage'));
+const ContactPage = lazy(() => import('../pages/ContactPage'));
+const BookingPage = lazy(() => import('../pages/BookingPage'));
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
 
 export default function AppRouter() {
   return (

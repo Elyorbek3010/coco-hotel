@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { useHotel } from '../hooks/useHotel';
 import { getGallery } from '../api/hotel';
 import Container from '../components/common/Container';
 import SectionTitle from '../components/common/SectionTitle';
 
 export default function AboutPage() {
-  useDocumentTitle('About');
+  usePageMeta({
+    title: 'About',
+    description: 'Learn more about Coco Hotel and your stay experience.',
+    canonicalPath: '/about',
+  });
   const { hotelInfo } = useHotel();
   const [galleryImages, setGalleryImages] = useState([]);
 
@@ -96,6 +100,7 @@ export default function AboutPage() {
                         src={img.image}
                         alt={img.alt_text || img.title || `${hotelName} atmosphere`}
                         loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                       />
                     </div>

@@ -1,7 +1,14 @@
 import { Link } from 'react-router-dom';
+import { usePageMeta } from '../hooks/usePageMeta';
 import Container from '../components/common/Container';
 
 export default function NotFoundPage() {
+  usePageMeta({
+    title: '404',
+    description: 'Page not found — Coco Hotel.',
+    canonicalPath: '/404',
+  });
+
   return (
     <div className="py-24 sm:py-32">
       <Container className="text-center">

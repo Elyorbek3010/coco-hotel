@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { getGallery } from '../api/hotel';
 import Container from '../components/common/Container';
 import SectionTitle from '../components/common/SectionTitle';
@@ -8,7 +8,11 @@ import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 
 export default function GalleryPage() {
-  useDocumentTitle('Gallery');
+  usePageMeta({
+    title: 'Gallery',
+    description: 'View Coco Hotel rooms and property photography.',
+    canonicalPath: '/gallery',
+  });
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -123,6 +127,7 @@ export default function GalleryPage() {
                       src={item.image}
                       alt={item.alt_text || item.title || 'Coco Hotel sanctuary view'}
                       loading="lazy"
+                      decoding="async"
                       onError={() => handleImageError(item.id)}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />

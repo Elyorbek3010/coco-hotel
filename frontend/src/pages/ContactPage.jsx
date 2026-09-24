@@ -1,11 +1,15 @@
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { useHotel } from '../hooks/useHotel';
 import Container from '../components/common/Container';
 import ContactForm from '../components/contact/ContactForm';
 import CallbackForm from '../components/contact/CallbackForm';
 
 export default function ContactPage() {
-  useDocumentTitle('Contact');
+  usePageMeta({
+    title: 'Contact',
+    description: 'Contact Coco Hotel, request a callback or send an inquiry.',
+    canonicalPath: '/contact',
+  });
   const { hotelInfo } = useHotel();
 
   const hotelName = hotelInfo?.name || 'Coco Hotel';

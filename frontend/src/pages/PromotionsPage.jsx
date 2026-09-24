@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { getPromotions } from '../api/hotel';
 import Container from '../components/common/Container';
 import SectionTitle from '../components/common/SectionTitle';
@@ -8,7 +8,11 @@ import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 
 export default function PromotionsPage() {
-  useDocumentTitle('Offers');
+  usePageMeta({
+    title: 'Offers',
+    description: 'Explore current Coco Hotel promotions and offers.',
+    canonicalPath: '/promotions',
+  });
 
   const [promotions, setPromotions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -128,6 +132,7 @@ export default function PromotionsPage() {
                           src={promo.image}
                           alt={promo.title}
                           loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                         />
                       </div>
