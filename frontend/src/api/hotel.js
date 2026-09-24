@@ -31,3 +31,11 @@ export async function getPromotions() {
   const response = await apiClient.get('/promotions/');
   return response.data;
 }
+
+/**
+ * Fetch single promotion details by slug.
+ */
+export async function getPromotionBySlug(slug) {
+  const response = await apiClient.get(`/promotions/${slug}/`);
+  return response.data;
+}

@@ -7,6 +7,7 @@ import AboutPage from '../pages/AboutPage';
 import ServicesPage from '../pages/ServicesPage';
 import GalleryPage from '../pages/GalleryPage';
 import PromotionsPage from '../pages/PromotionsPage';
+import PromotionDetailPage from '../pages/PromotionDetailPage';
 import ContactPage from '../pages/ContactPage';
 import BookingPage from '../pages/BookingPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -22,6 +23,7 @@ export default function AppRouter() {
         <Route path="services" element={<ServicesPage />} />
         <Route path="gallery" element={<GalleryPage />} />
         <Route path="promotions" element={<PromotionsPage />} />
+        <Route path="promotions/:slug" element={<PromotionDetailPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="booking" element={<BookingPage />} />
         <Route path="*" element={<NotFoundPage />} />
