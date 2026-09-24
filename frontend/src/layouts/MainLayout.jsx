@@ -9,7 +9,7 @@ import HotelJsonLd from '../components/seo/HotelJsonLd';
 function RouteLoadingFallback() {
   return (
     <div
-      className="py-24 sm:py-32 flex justify-center items-center min-h-[50vh]"
+      className="py-24 sm:py-32 flex justify-center items-center min-h-[50vh] bg-[#0c0a09]"
       role="status"
       aria-live="polite"
     >
@@ -22,7 +22,7 @@ export default function MainLayout() {
   return (
     <HotelProvider>
       <HotelJsonLd />
-      <div className="min-h-screen flex flex-col bg-stone-50 text-stone-800 antialiased selection:bg-amber-100 selection:text-amber-900">
+      <div className="min-h-screen flex flex-col bg-[#0c0a09] text-stone-200 antialiased selection:bg-[#c5a880] selection:text-[#0c0a09]">
         <Header />
         <main className="flex-1">
           <Suspense fallback={<RouteLoadingFallback />}>

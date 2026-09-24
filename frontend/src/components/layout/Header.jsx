@@ -41,18 +41,18 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-stone-200">
+    <header className="sticky top-0 z-50 bg-[#0c0a09]/95 backdrop-blur-md border-b border-[#c5a880]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Brand / Logo */}
           <Link
             to="/"
-            className="flex flex-col group focus-visible:outline-2 focus-visible:outline-amber-700 focus-visible:outline-offset-4 rounded-sm"
+            className="flex flex-col group focus-visible:outline-2 focus-visible:outline-[#c5a880] focus-visible:outline-offset-4 rounded-xs"
           >
-            <span className="font-serif text-2xl tracking-widest text-stone-900 font-bold group-hover:text-amber-800 transition-colors">
+            <span className="font-serif text-2xl tracking-[0.25em] text-stone-100 font-bold group-hover:text-[#c5a880] transition-colors">
               {hotelName.toUpperCase()}
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-amber-700 font-medium">
+            <span className="text-[9px] uppercase tracking-[0.3em] text-[#c5a880] font-medium">
               Boutique Sanctuary
             </span>
           </Link>
@@ -68,10 +68,10 @@ export default function Header() {
                 to={link.path}
                 end={link.path === '/'}
                 className={({ isActive }) =>
-                  `text-sm tracking-wide transition-colors py-1 focus-visible:outline-2 focus-visible:outline-amber-700 focus-visible:outline-offset-2 rounded-sm ${
+                  `text-xs uppercase tracking-widest transition-colors py-1 focus-visible:outline-2 focus-visible:outline-[#c5a880] focus-visible:outline-offset-2 rounded-xs ${
                     isActive
-                      ? 'text-amber-800 font-semibold border-b-2 border-amber-800'
-                      : 'text-stone-700 hover:text-amber-800 font-medium'
+                      ? 'text-[#dfc282] font-semibold border-b-2 border-[#c5a880]'
+                      : 'text-stone-300 hover:text-[#c5a880] font-normal'
                   }`
                 }
               >
@@ -84,7 +84,7 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             <Link
               to="/booking"
-              className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-xs font-semibold uppercase tracking-wider bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors focus-visible:outline-2 focus-visible:outline-amber-700 focus-visible:outline-offset-2"
+              className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-[#c5a880] focus-visible:outline-offset-2"
             >
               Book Now
             </Link>
@@ -97,7 +97,7 @@ export default function Header() {
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               onClick={toggleMenu}
-              className="md:hidden inline-flex items-center justify-center p-2 rounded-sm text-stone-700 hover:text-amber-800 hover:bg-stone-100 focus-visible:outline-2 focus-visible:outline-amber-700 focus-visible:outline-offset-2"
+              className="md:hidden inline-flex items-center justify-center p-2 rounded-xs text-stone-300 hover:text-[#c5a880] hover:bg-stone-900 focus-visible:outline-2 focus-visible:outline-[#c5a880] focus-visible:outline-offset-2"
             >
               <svg
                 className="w-6 h-6"
@@ -123,7 +123,7 @@ export default function Header() {
         <nav
           id="mobile-navigation"
           aria-label="Mobile Navigation"
-          className="md:hidden border-t border-stone-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-lg"
+          className="md:hidden border-t border-[#c5a880]/20 bg-[#0c0a09] px-4 pt-3 pb-6 space-y-1.5 shadow-2xl"
         >
           {navLinks.map((link) => (
             <NavLink
@@ -132,21 +132,21 @@ export default function Header() {
               end={link.path === '/'}
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `block px-3 py-2.5 rounded-sm text-base font-medium transition-colors ${
+                `block px-3.5 py-2.5 rounded-xs text-xs uppercase tracking-widest transition-colors ${
                   isActive
-                    ? 'bg-amber-50 text-amber-900 font-semibold'
-                    : 'text-stone-700 hover:bg-stone-50 hover:text-amber-800'
+                    ? 'bg-[#181614] text-[#dfc282] font-semibold border-l-2 border-[#c5a880]'
+                    : 'text-stone-300 hover:bg-[#141210] hover:text-[#c5a880]'
                 }`
               }
             >
               {link.name}
             </NavLink>
           ))}
-          <div className="pt-3 border-t border-stone-100">
+          <div className="pt-3 border-t border-stone-800">
             <Link
               to="/booking"
               onClick={() => setMobileMenuOpen(false)}
-              className="block w-full text-center px-4 py-3 text-sm font-semibold uppercase tracking-wider bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors"
+              className="block w-full text-center px-4 py-3 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors"
             >
               Book Now
             </Link>

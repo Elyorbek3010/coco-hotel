@@ -59,13 +59,13 @@ export default function ServicesPage() {
       {/* 1. HERO HEADER */}
       <section
         aria-label="Services Header"
-        className="bg-stone-900 text-white py-16 sm:py-24 border-b border-stone-800"
+        className="bg-[#0c0a09] text-white py-16 sm:py-24 border-b border-[#c5a880]/20"
       >
         <Container className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-500 mb-3">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#c5a880] mb-3">
             Guest Amenities
           </p>
-          <h1 className="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-stone-100 tracking-tight mb-4">
             Services &amp; Comforts
           </h1>
           <p className="text-base sm:text-lg text-stone-300 font-light max-w-2xl mx-auto leading-relaxed">
@@ -75,7 +75,7 @@ export default function ServicesPage() {
       </section>
 
       {/* 2. SERVICES CONTENT */}
-      <section aria-label="Services List" className="py-16 sm:py-24">
+      <section aria-label="Services List" className="py-16 sm:py-24 bg-[#0c0a09]">
         <Container>
           {loading ? (
             <LoadingState message="Loading hotel services..." />
@@ -86,16 +86,16 @@ export default function ServicesPage() {
               onRetry={handleRetry}
             />
           ) : services.length === 0 ? (
-            <div className="text-center py-16 px-6 bg-stone-50 border border-stone-200 rounded-sm max-w-xl mx-auto">
-              <h2 className="font-serif text-xl font-semibold text-stone-900 mb-2">
+            <div className="text-center py-16 px-6 bg-[#141210] border border-stone-800 rounded-xs max-w-xl mx-auto">
+              <h2 className="font-serif text-xl font-semibold text-stone-100 mb-2">
                 Amenities Catalogue Updating
               </h2>
-              <p className="text-sm text-stone-600 mb-6 leading-relaxed">
+              <p className="text-sm text-stone-400 mb-6 leading-relaxed font-light">
                 Our active hotel services information is currently being updated. Please contact our front desk directly for any amenity inquiries.
               </p>
               <Link
                 to="/contact"
-                className="inline-flex items-center px-6 py-2.5 text-xs font-semibold uppercase tracking-wider bg-stone-900 text-white rounded-sm hover:bg-stone-800 transition-colors"
+                className="inline-flex items-center px-6 py-2.5 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors"
               >
                 Contact Front Desk
               </Link>
@@ -112,20 +112,20 @@ export default function ServicesPage() {
                   {services.map((service) => (
                     <div
                       key={service.id}
-                      className="p-8 bg-white border border-stone-200 rounded-sm hover:border-amber-700/40 hover:shadow-xs transition-all flex flex-col"
+                      className="p-8 bg-[#141210] border border-[#c5a880]/20 rounded-xs hover:border-[#c5a880]/50 hover:shadow-xl transition-all flex flex-col"
                     >
-                      <div className="w-12 h-12 flex items-center justify-center rounded-full bg-amber-50 text-amber-800 mb-5">
+                      <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#1c1916] text-[#c5a880] border border-[#c5a880]/30 mb-5">
                         <ServiceIcon name={service.icon || service.name} className="w-6 h-6" />
                       </div>
-                      <h3 className="font-serif text-xl font-bold text-stone-900 mb-2">
+                      <h3 className="font-serif text-xl font-semibold text-stone-100 mb-2">
                         {service.name}
                       </h3>
                       {service.description ? (
-                        <p className="text-sm text-stone-600 leading-relaxed">
+                        <p className="text-sm text-stone-400 leading-relaxed font-light">
                           {service.description}
                         </p>
                       ) : (
-                        <p className="text-xs text-stone-400 italic">
+                        <p className="text-xs text-stone-500 italic font-light">
                           Included for all registered hotel guests.
                         </p>
                       )}
@@ -135,25 +135,25 @@ export default function ServicesPage() {
               </div>
 
               {/* Inquiry & Booking Callout */}
-              <div className="p-8 sm:p-10 bg-stone-100/80 border border-stone-200 rounded-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="p-8 sm:p-10 bg-[#161412] border border-[#c5a880]/30 rounded-xs flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-2xl">
                 <div className="max-w-xl space-y-2">
-                  <h3 className="font-serif text-xl font-bold text-stone-900">
+                  <h3 className="font-serif text-xl font-semibold text-stone-100">
                     Need Any Special Arrangements?
                   </h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">
+                  <p className="text-sm text-stone-300 leading-relaxed font-light">
                     Whether you require specific arrival timings, quiet room preferences, or personal assistance, our team is always ready to accommodate your needs.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-4 shrink-0">
                   <Link
                     to="/booking"
-                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-wider bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors focus-visible:outline-2 focus-visible:outline-amber-700"
+                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors focus-visible:outline-2 focus-visible:outline-[#c5a880]"
                   >
                     Book Your Stay
                   </Link>
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-wider border border-stone-300 text-stone-800 hover:bg-stone-50 rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-stone-500"
+                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-[#c5a880]/40 text-[#c5a880] hover:bg-[#181614] hover:text-[#dfc282] rounded-xs transition-colors focus-visible:outline-2 focus-visible:outline-[#c5a880]"
                   >
                     Contact Concierge
                   </Link>

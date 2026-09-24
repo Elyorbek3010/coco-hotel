@@ -69,13 +69,13 @@ export default function GalleryPage() {
       {/* 1. HERO HEADER */}
       <section
         aria-label="Gallery Header"
-        className="bg-stone-900 text-white py-16 sm:py-24 border-b border-stone-800"
+        className="bg-[#0c0a09] text-white py-16 sm:py-24 border-b border-[#c5a880]/20"
       >
         <Container className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-500 mb-3">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#c5a880] mb-3">
             Visual Experience
           </p>
-          <h1 className="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-stone-100 tracking-tight mb-4">
             Photo Gallery
           </h1>
           <p className="text-base sm:text-lg text-stone-300 font-light max-w-2xl mx-auto leading-relaxed">
@@ -85,7 +85,7 @@ export default function GalleryPage() {
       </section>
 
       {/* 2. GALLERY GRID */}
-      <section aria-label="Hotel Photographs" className="py-16 sm:py-24">
+      <section aria-label="Hotel Photographs" className="py-16 sm:py-24 bg-[#0c0a09]">
         <Container>
           {loading ? (
             <LoadingState message="Loading hotel photo gallery..." />
@@ -96,16 +96,16 @@ export default function GalleryPage() {
               onRetry={handleRetry}
             />
           ) : visibleImages.length === 0 ? (
-            <div className="text-center py-16 px-6 bg-stone-50 border border-stone-200 rounded-sm max-w-xl mx-auto">
-              <h2 className="font-serif text-xl font-semibold text-stone-900 mb-2">
+            <div className="text-center py-16 px-6 bg-[#141210] border border-stone-800 rounded-xs max-w-xl mx-auto">
+              <h2 className="font-serif text-xl font-semibold text-stone-100 mb-2">
                 Curating Our Collection
               </h2>
-              <p className="text-sm text-stone-600 mb-6 leading-relaxed">
+              <p className="text-sm text-stone-400 mb-6 leading-relaxed font-light">
                 Our curated visual collection is currently being updated. Discover our accommodations for a detailed preview of our rooms and suites.
               </p>
               <Link
                 to="/rooms"
-                className="inline-flex items-center px-6 py-2.5 text-xs font-semibold uppercase tracking-wider bg-stone-900 text-white rounded-sm hover:bg-stone-800 transition-colors"
+                className="inline-flex items-center px-6 py-2.5 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors"
               >
                 Browse Accommodations
               </Link>
@@ -121,7 +121,7 @@ export default function GalleryPage() {
                 {visibleImages.map((item) => (
                   <figure
                     key={item.id}
-                    className="group relative overflow-hidden bg-stone-100 rounded-sm border border-stone-200 aspect-4/3 flex flex-col justify-end"
+                    className="group relative overflow-hidden bg-stone-900 rounded-xs border border-[#c5a880]/20 aspect-4/3 flex flex-col justify-end hover:border-[#c5a880]/50 transition-colors shadow-lg"
                   >
                     <img
                       src={item.image}
@@ -134,8 +134,8 @@ export default function GalleryPage() {
 
                     {/* Gradient Overlay & Caption */}
                     {item.title && (
-                      <figcaption className="relative z-10 p-4 bg-gradient-to-t from-stone-950/80 via-stone-950/40 to-transparent text-white transition-opacity duration-300">
-                        <p className="text-sm font-medium tracking-wide">
+                      <figcaption className="relative z-10 p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-stone-100 transition-opacity duration-300">
+                        <p className="text-xs font-medium tracking-wider uppercase text-stone-200">
                           {item.title}
                         </p>
                       </figcaption>
@@ -145,20 +145,20 @@ export default function GalleryPage() {
               </div>
 
               {/* Bottom CTA */}
-              <div className="pt-8 text-center border-t border-stone-200">
-                <p className="text-sm text-stone-600 mb-4">
+              <div className="pt-8 text-center border-t border-stone-800">
+                <p className="text-sm text-stone-300 mb-4 font-light">
                   Ready to experience our sanctuary in person?
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-4">
                   <Link
                     to="/rooms"
-                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-wider bg-stone-900 text-white rounded-sm hover:bg-stone-800 transition-colors"
+                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-[#c5a880]/40 text-[#c5a880] hover:bg-[#181614] hover:text-[#dfc282] rounded-xs transition-colors"
                   >
                     Explore Rooms
                   </Link>
                   <Link
                     to="/booking"
-                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-wider bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors"
+                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors shadow-md"
                   >
                     Request a Reservation
                   </Link>
