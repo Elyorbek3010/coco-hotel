@@ -12,15 +12,17 @@ export default function PrimaryButton({
   ...props
 }) {
   const baseClasses =
-    'inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide transition-colors duration-200 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center px-6 py-3 text-xs sm:text-sm font-semibold uppercase tracking-widest transition-all duration-200 rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer';
 
   const variants = {
     primary:
-      'bg-[#c5a880] text-[#0c0a09] font-semibold hover:bg-[#dfc282] focus-visible:outline-[#c5a880] shadow-sm active:bg-[#a68a60]',
+      'bg-theme-gold text-stone-950 hover:brightness-110 active:brightness-95 shadow-sm hover:shadow-md focus-visible:outline-[var(--color-gold)]',
     secondary:
-      'bg-[#181614] border border-stone-800 text-stone-200 hover:bg-stone-800 hover:text-white focus-visible:outline-[#c5a880]',
+      'bg-theme-elevated border border-theme text-theme-main hover:border-[var(--color-gold)] hover:text-theme-gold focus-visible:outline-[var(--color-gold)]',
     outline:
-      'border border-[#c5a880]/40 text-[#c5a880] hover:bg-[#c5a880]/10 hover:border-[#c5a880] focus-visible:outline-[#c5a880]',
+      'border border-theme-gold text-theme-gold hover:bg-theme-gold hover:text-stone-950 focus-visible:outline-[var(--color-gold)]',
+    ghost:
+      'text-theme-muted hover:text-theme-gold hover:bg-theme-elevated focus-visible:outline-[var(--color-gold)]',
   };
 
   const combinedClasses = `${baseClasses} ${variants[variant] || variants.primary} ${className}`;

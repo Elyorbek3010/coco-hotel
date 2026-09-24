@@ -9,7 +9,10 @@ class Amenity(models.Model):
     """
     Amenity available in hotel rooms (e.g., Wi-Fi, Air Conditioning, Balcony).
     """
-    name = models.CharField(max_length=100, unique=True, help_text="Human-readable amenity name")
+    name = models.CharField(max_length=100, unique=True, help_text="Human-readable amenity name (fallback)")
+    name_en = models.CharField(max_length=100, blank=True, default="", help_text="Amenity name in English")
+    name_uz = models.CharField(max_length=100, blank=True, default="", help_text="Amenity name in Uzbek")
+    name_ru = models.CharField(max_length=100, blank=True, default="", help_text="Amenity name in Russian")
     icon = models.CharField(
         max_length=50,
         blank=True,
@@ -49,10 +52,19 @@ class Room(models.Model):
     """
     Room category / type shown to hotel guests on the website.
     """
-    name = models.CharField(max_length=150, help_text="Room category title (e.g., 'Deluxe Double')")
+    name = models.CharField(max_length=150, help_text="Room category title (fallback)")
+    name_en = models.CharField(max_length=150, blank=True, default="", help_text="Room category title in English")
+    name_uz = models.CharField(max_length=150, blank=True, default="", help_text="Room category title in Uzbek")
+    name_ru = models.CharField(max_length=150, blank=True, default="", help_text="Room category title in Russian")
     slug = models.SlugField(max_length=160, unique=True, help_text="URL-safe unique identifier")
-    short_description = models.CharField(max_length=300, help_text="Concise room overview")
-    description = models.TextField(help_text="Full detailed room description")
+    short_description = models.CharField(max_length=300, help_text="Concise room overview (fallback)")
+    short_description_en = models.CharField(max_length=300, blank=True, default="", help_text="Concise room overview in English")
+    short_description_uz = models.CharField(max_length=300, blank=True, default="", help_text="Concise room overview in Uzbek")
+    short_description_ru = models.CharField(max_length=300, blank=True, default="", help_text="Concise room overview in Russian")
+    description = models.TextField(help_text="Full detailed room description (fallback)")
+    description_en = models.TextField(blank=True, default="", help_text="Full detailed room description in English")
+    description_uz = models.TextField(blank=True, default="", help_text="Full detailed room description in Uzbek")
+    description_ru = models.TextField(blank=True, default="", help_text="Full detailed room description in Russian")
     price_per_night = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -69,7 +81,10 @@ class Room(models.Model):
         validators=[MinValueValidator(0)],
         help_text="Maximum child capacity"
     )
-    bed_type = models.CharField(max_length=100, help_text="Bed arrangement description (e.g., '1 King Bed')")
+    bed_type = models.CharField(max_length=100, help_text="Bed arrangement description (fallback)")
+    bed_type_en = models.CharField(max_length=100, blank=True, default="", help_text="Bed arrangement in English")
+    bed_type_uz = models.CharField(max_length=100, blank=True, default="", help_text="Bed arrangement in Uzbek")
+    bed_type_ru = models.CharField(max_length=100, blank=True, default="", help_text="Bed arrangement in Russian")
     room_size = models.DecimalField(
         max_digits=6,
         decimal_places=2,

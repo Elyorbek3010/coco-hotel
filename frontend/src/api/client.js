@@ -18,6 +18,17 @@ export const apiClient = axios.create({
   },
 });
 
+apiClient.interceptors.request.use((config) => {
+  let lang = 'en';
+  try {
+    lang = localStorage.getItem('coco-language') || document.documentElement.lang || 'en';
+  } catch {
+    lang = document.documentElement.lang || 'en';
+  }
+  config.headers['Accept-Language'] = lang;
+  return config;
+});
+
 export const checkHealth = async () => {
   const response = await apiClient.get('/health/');
   return response.data;

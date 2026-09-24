@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { useLanguage } from '../hooks/useLanguage';
 import { getGallery } from '../api/hotel';
 import Container from '../components/common/Container';
 import SectionTitle from '../components/common/SectionTitle';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
+import RevealOnScroll from '../components/common/RevealOnScroll';
 
 export default function GalleryPage() {
+  const { t } = useLanguage();
   usePageMeta({
-    title: 'Gallery',
-    description: 'View Coco Hotel rooms and property photography.',
+    title: t('meta.galleryTitle'),
+    description: t('meta.galleryDesc'),
     canonicalPath: '/gallery',
   });
 
@@ -65,105 +68,111 @@ export default function GalleryPage() {
   const visibleImages = images.filter((img) => !brokenIds.has(img.id));
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-theme-main transition-colors duration-200">
       {/* 1. HERO HEADER */}
       <section
         aria-label="Gallery Header"
-        className="bg-[#0c0a09] text-white py-16 sm:py-24 border-b border-[#c5a880]/20"
+        className="bg-theme-secondary text-theme-main py-16 sm:py-24 border-b border-theme transition-colors duration-200"
       >
         <Container className="text-center">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#c5a880] mb-3">
-            Visual Experience
-          </p>
-          <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-stone-100 tracking-tight mb-4">
-            Photo Gallery
-          </h1>
-          <p className="text-base sm:text-lg text-stone-300 font-light max-w-2xl mx-auto leading-relaxed">
-            Immerse yourself in images capturing the serene architecture, warm hospitality, and peaceful spaces of Coco Hotel.
-          </p>
+          <RevealOnScroll variant="up">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-theme-gold mb-3">
+              {t('gallery.subtitle')}
+            </p>
+            <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-theme-main tracking-tight mb-4">
+              {t('gallery.title')}
+            </h1>
+            <p className="text-base sm:text-lg text-theme-muted font-light max-w-2xl mx-auto leading-relaxed">
+              {t('gallery.intro')}
+            </p>
+          </RevealOnScroll>
         </Container>
       </section>
 
       {/* 2. GALLERY GRID */}
-      <section aria-label="Hotel Photographs" className="py-16 sm:py-24 bg-[#0c0a09]">
+      <section aria-label="Hotel Photographs" className="py-16 sm:py-24 bg-theme-main">
         <Container>
           {loading ? (
-            <LoadingState message="Loading hotel photo gallery..." />
+            <LoadingState />
           ) : error ? (
-            <ErrorState
-              title="Unable to load gallery"
-              message="We could not load the hotel photographs at this time. Please try again."
-              onRetry={handleRetry}
-            />
+            <ErrorState onRetry={handleRetry} />
           ) : visibleImages.length === 0 ? (
-            <div className="text-center py-16 px-6 bg-[#141210] border border-stone-800 rounded-xs max-w-xl mx-auto">
-              <h2 className="font-serif text-xl font-semibold text-stone-100 mb-2">
-                Curating Our Collection
+            <div className="text-center py-16 px-6 bg-theme-surface border border-theme rounded-xs max-w-xl mx-auto shadow-md">
+              <h2 className="font-serif text-xl font-semibold text-theme-main mb-2">
+                {t('gallery.empty')}
               </h2>
-              <p className="text-sm text-stone-400 mb-6 leading-relaxed font-light">
-                Our curated visual collection is currently being updated. Discover our accommodations for a detailed preview of our rooms and suites.
+              <p className="text-sm text-theme-muted mb-6 leading-relaxed font-light">
+                {t('rooms.updatingDesc')}
               </p>
               <Link
                 to="/rooms"
-                className="inline-flex items-center px-6 py-2.5 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors"
+                className="inline-flex items-center px-6 py-2.5 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 transition-colors"
               >
-                Browse Accommodations
+                {t('home.exploreRooms')}
               </Link>
             </div>
           ) : (
             <div className="space-y-12">
-              <SectionTitle
-                subtitle="Hotel Moments"
-                title="Moments of Rest &amp; Stillness"
-              />
+              <RevealOnScroll variant="up">
+                <SectionTitle
+                  subtitle={t('gallery.momentsSubtitle')}
+                  title={t('gallery.momentsTitle')}
+                />
+              </RevealOnScroll>
 
+              {/* Editorial Masonry-style Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {visibleImages.map((item) => (
-                  <figure
-                    key={item.id}
-                    className="group relative overflow-hidden bg-stone-900 rounded-xs border border-[#c5a880]/20 aspect-4/3 flex flex-col justify-end hover:border-[#c5a880]/50 transition-colors shadow-lg"
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.alt_text || item.title || 'Coco Hotel sanctuary view'}
-                      loading="lazy"
-                      decoding="async"
-                      onError={() => handleImageError(item.id)}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
+                {visibleImages.map((item, idx) => (
+                  <RevealOnScroll key={item.id} variant="up" delay={idx * 60}>
+                    <figure
+                      className={`group relative overflow-hidden bg-theme-elevated rounded-xs border border-theme flex flex-col justify-end hover:border-[var(--color-gold)] transition-all duration-300 shadow-md hover:shadow-xl ${
+                        idx === 0 ? 'sm:col-span-2 sm:aspect-16/9 aspect-4/3' : 'aspect-4/3'
+                      }`}
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.alt_text || item.title || 'Coco Hotel sanctuary view'}
+                        loading="lazy"
+                        decoding="async"
+                        onError={() => handleImageError(item.id)}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
 
-                    {/* Gradient Overlay & Caption */}
-                    {item.title && (
-                      <figcaption className="relative z-10 p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-stone-100 transition-opacity duration-300">
-                        <p className="text-xs font-medium tracking-wider uppercase text-stone-200">
-                          {item.title}
-                        </p>
-                      </figcaption>
-                    )}
-                  </figure>
+                      {/* Gradient Overlay & Caption */}
+                      {item.title && (
+                        <figcaption className="relative z-10 p-5 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-stone-100 transition-opacity duration-300">
+                          <p className="text-xs font-medium tracking-wider uppercase text-stone-200">
+                            {item.title}
+                          </p>
+                        </figcaption>
+                      )}
+                    </figure>
+                  </RevealOnScroll>
                 ))}
               </div>
 
               {/* Bottom CTA */}
-              <div className="pt-8 text-center border-t border-stone-800">
-                <p className="text-sm text-stone-300 mb-4 font-light">
-                  Ready to experience our sanctuary in person?
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-4">
-                  <Link
-                    to="/rooms"
-                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-[#c5a880]/40 text-[#c5a880] hover:bg-[#181614] hover:text-[#dfc282] rounded-xs transition-colors"
-                  >
-                    Explore Rooms
-                  </Link>
-                  <Link
-                    to="/booking"
-                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors shadow-md"
-                  >
-                    Request a Reservation
-                  </Link>
+              <RevealOnScroll variant="up" delay={150}>
+                <div className="pt-12 text-center border-t border-theme">
+                  <p className="text-sm text-theme-muted mb-4 font-light">
+                    {t('gallery.experienceInPerson')}
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center gap-4">
+                    <Link
+                      to="/rooms"
+                      className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-theme-gold text-theme-gold hover:bg-theme-surface rounded-xs transition-colors"
+                    >
+                      {t('gallery.exploreRooms')}
+                    </Link>
+                    <Link
+                      to="/booking"
+                      className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 active:brightness-95 transition-all shadow-md"
+                    >
+                      {t('gallery.requestReservation')}
+                    </Link>
+                  </div>
                 </div>
-              </div>
+              </RevealOnScroll>
             </div>
           )}
         </Container>
