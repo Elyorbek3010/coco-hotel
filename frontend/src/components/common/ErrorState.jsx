@@ -7,15 +7,15 @@ export default function ErrorState({
   return (
     <div
       role="alert"
-      className={`p-6 border border-stone-200 bg-stone-50 rounded-sm text-center ${className}`}
+      className={`p-6 border border-stone-800 bg-[#141210] rounded-xs text-center ${className}`}
     >
-      <h3 className="text-base font-semibold text-stone-900 mb-1">{title}</h3>
-      <p className="text-sm text-stone-600 mb-4">{message}</p>
+      <h3 className="text-base font-serif font-semibold text-stone-100 mb-1">{title}</h3>
+      <p className="text-sm text-stone-400 mb-4">{message}</p>
       {onRetry && (
         <button
           type="button"
           onClick={onRetry}
-          className="inline-flex items-center px-4 py-2 text-xs font-semibold uppercase tracking-wider text-amber-800 bg-amber-50 border border-amber-200 rounded-sm hover:bg-amber-100 transition-colors focus-visible:outline-2 focus-visible:outline-amber-600"
+          className="inline-flex items-center px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#dfc282] bg-[#1a1714] border border-[#c5a880]/30 rounded-xs hover:border-[#c5a880] hover:bg-[#201c18] transition-colors focus-visible:outline-2 focus-visible:outline-[#c5a880]"
         >
           Try Again
         </button>

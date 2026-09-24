@@ -62,13 +62,13 @@ export default function RoomsPage() {
       {/* 1. ROOMS PAGE HERO */}
       <section
         aria-label="Rooms Overview"
-        className="bg-stone-900 text-white py-16 sm:py-24 border-b border-stone-800"
+        className="bg-[#0c0a09] text-white py-16 sm:py-24 border-b border-[#c5a880]/20"
       >
         <Container className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-500 mb-3">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#c5a880] mb-3">
             Accommodations
           </p>
-          <h1 className="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-stone-100 tracking-tight mb-4">
             Rooms &amp; Suites
           </h1>
           <p className="text-base sm:text-lg text-stone-300 font-light max-w-2xl mx-auto leading-relaxed">
@@ -78,7 +78,7 @@ export default function RoomsPage() {
       </section>
 
       {/* 2. ROOM LISTINGS */}
-      <section aria-label="Available Rooms" className="py-16 sm:py-24">
+      <section aria-label="Available Rooms" className="py-16 sm:py-24 bg-[#0c0a09]">
         <Container>
           {loading ? (
             <LoadingState message="Discovering accommodations..." />
@@ -101,23 +101,23 @@ export default function RoomsPage() {
               </div>
             </div>
           ) : (
-            <div className="p-12 bg-white border border-stone-200 rounded-sm text-center max-w-xl mx-auto">
-              <h2 className="font-serif text-xl font-bold text-stone-900 mb-3">
+            <div className="p-12 bg-[#141210] border border-stone-800 rounded-xs text-center max-w-xl mx-auto">
+              <h2 className="font-serif text-xl font-semibold text-stone-100 mb-3">
                 Room Information Updating
               </h2>
-              <p className="text-sm text-stone-600 mb-6 leading-relaxed">
+              <p className="text-sm text-stone-400 mb-6 leading-relaxed font-light">
                 Room information is currently being updated. Please contact our concierge desk directly or check back shortly.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   to="/contact"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-wider bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors"
                 >
                   Contact Concierge
                 </Link>
                 <Link
                   to="/"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-wider border border-stone-300 text-stone-700 hover:bg-stone-100 rounded-sm transition-colors"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-stone-700 text-stone-300 hover:bg-[#181614] hover:text-white rounded-xs transition-colors"
                 >
                   Return to Home
                 </Link>
@@ -130,7 +130,7 @@ export default function RoomsPage() {
       {/* 3. BOOKING CTA SECTION */}
       <section
         aria-label="Reservation Inquiry"
-        className="py-16 sm:py-20 bg-stone-100/70 border-t border-stone-200"
+        className="py-16 sm:py-20 bg-[#100e0c] border-t border-[#c5a880]/20"
       >
         <Container className="text-center">
           <SectionTitle
@@ -138,19 +138,19 @@ export default function RoomsPage() {
             title="Ready to Plan Your Stay?"
             centered
           />
-          <p className="text-sm sm:text-base text-stone-600 max-w-xl mx-auto mb-8 leading-relaxed">
+          <p className="text-sm sm:text-base text-stone-300 max-w-xl mx-auto mb-8 leading-relaxed font-light">
             Our reservations team is delighted to assist you with dates, room preferences, and personalized stay arrangements.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to={searchParamsString ? `/booking?${searchParamsString}` : '/booking'}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-amber-700"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-[#c5a880]"
             >
               Book Your Stay
             </Link>
             <Link
               to="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest border border-stone-300 bg-white text-stone-800 hover:bg-stone-50 rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-stone-500"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest border border-[#c5a880]/40 text-[#c5a880] hover:bg-[#181614] hover:text-[#dfc282] rounded-xs transition-colors focus-visible:outline-2 focus-visible:outline-[#c5a880]"
             >
               Inquire Directly
             </Link>

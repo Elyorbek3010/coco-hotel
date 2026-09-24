@@ -16,11 +16,11 @@ export default function PrimaryButton({
 
   const variants = {
     primary:
-      'bg-amber-700 text-white hover:bg-amber-800 focus-visible:outline-amber-700 shadow-sm active:bg-amber-900',
+      'bg-[#c5a880] text-[#0c0a09] font-semibold hover:bg-[#dfc282] focus-visible:outline-[#c5a880] shadow-sm active:bg-[#a68a60]',
     secondary:
-      'bg-stone-900 text-white hover:bg-stone-800 focus-visible:outline-stone-900 active:bg-stone-950',
+      'bg-[#181614] border border-stone-800 text-stone-200 hover:bg-stone-800 hover:text-white focus-visible:outline-[#c5a880]',
     outline:
-      'border border-stone-300 text-stone-800 hover:bg-stone-100 hover:text-stone-950 focus-visible:outline-stone-400',
+      'border border-[#c5a880]/40 text-[#c5a880] hover:bg-[#c5a880]/10 hover:border-[#c5a880] focus-visible:outline-[#c5a880]',
   };
 
   const combinedClasses = `${baseClasses} ${variants[variant] || variants.primary} ${className}`;

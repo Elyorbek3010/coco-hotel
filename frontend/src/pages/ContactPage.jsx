@@ -26,13 +26,13 @@ export default function ContactPage() {
       {/* 1. INTRO HEADING */}
       <section
         aria-label="Contact Coco Hotel Header"
-        className="bg-stone-900 text-white py-16 sm:py-24 border-b border-stone-800"
+        className="bg-[#0c0a09] text-white py-16 sm:py-24 border-b border-stone-800/80"
       >
         <Container className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-500 mb-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c5a880] mb-3">
             Concierge &amp; Inquiries
           </p>
-          <h1 className="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-5xl font-serif font-bold text-stone-100 tracking-tight mb-4">
             Contact &amp; Visit Us
           </h1>
           <p className="text-base sm:text-lg text-stone-300 font-light max-w-2xl mx-auto leading-relaxed">
@@ -42,90 +42,90 @@ export default function ContactPage() {
       </section>
 
       {/* 2. HOTEL CONTACT INFORMATION CARDS */}
-      <section aria-label="Hotel Contact Details" className="py-12 sm:py-16 bg-stone-100/70 border-b border-stone-200">
+      <section aria-label="Hotel Contact Details" className="py-12 sm:py-16 bg-[#141210] border-b border-stone-800/80">
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Phone */}
-            <div className="p-6 bg-white border border-stone-200 rounded-sm flex flex-col justify-between">
+            <div className="p-6 bg-[#181614] border border-stone-800/80 rounded-sm flex flex-col justify-between hover:border-[#c5a880]/30 transition-colors">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-amber-700 block mb-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#c5a880] block mb-2">
                   Telephone
                 </span>
-                <h2 className="text-lg font-serif font-bold text-stone-900 mb-3">
+                <h2 className="text-lg font-serif font-bold text-stone-100 mb-3">
                   Direct Inquiries
                 </h2>
-                <div className="space-y-1 text-sm text-stone-700">
+                <div className="space-y-1 text-sm text-stone-300">
                   {phone ? (
                     <p>
-                      <a href={`tel:${phone}`} className="hover:text-amber-800 font-medium transition-colors">
+                      <a href={`tel:${phone}`} className="hover:text-[#c5a880] font-medium transition-colors">
                         {phone}
                       </a>
                     </p>
                   ) : (
-                    <p className="text-stone-400">Available at front desk</p>
+                    <p className="text-stone-500">Available at front desk</p>
                   )}
                   {secondaryPhone && (
-                    <p className="text-xs text-stone-500">
-                      Alt: <a href={`tel:${secondaryPhone}`} className="hover:text-amber-800 transition-colors">{secondaryPhone}</a>
+                    <p className="text-xs text-stone-400">
+                      Alt: <a href={`tel:${secondaryPhone}`} className="hover:text-[#c5a880] transition-colors">{secondaryPhone}</a>
                     </p>
                   )}
                 </div>
               </div>
-              <p className="text-[11px] text-stone-400 mt-4 pt-3 border-t border-stone-100">
+              <p className="text-[11px] text-stone-500 mt-4 pt-3 border-t border-stone-800/60">
                 Front desk support
               </p>
             </div>
 
             {/* Email */}
-            <div className="p-6 bg-white border border-stone-200 rounded-sm flex flex-col justify-between">
+            <div className="p-6 bg-[#181614] border border-stone-800/80 rounded-sm flex flex-col justify-between hover:border-[#c5a880]/30 transition-colors">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-amber-700 block mb-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#c5a880] block mb-2">
                   Email
                 </span>
-                <h2 className="text-lg font-serif font-bold text-stone-900 mb-3">
+                <h2 className="text-lg font-serif font-bold text-stone-100 mb-3">
                   Electronic Correspondence
                 </h2>
-                <div className="text-sm text-stone-700">
+                <div className="text-sm text-stone-300">
                   {email ? (
                     <p className="break-all">
-                      <a href={`mailto:${email}`} className="hover:text-amber-800 font-medium transition-colors">
+                      <a href={`mailto:${email}`} className="hover:text-[#c5a880] font-medium transition-colors">
                         {email}
                       </a>
                     </p>
                   ) : (
-                    <p className="text-stone-400">Inquiries welcome</p>
+                    <p className="text-stone-500">Inquiries welcome</p>
                   )}
                 </div>
               </div>
-              <p className="text-[11px] text-stone-400 mt-4 pt-3 border-t border-stone-100">
+              <p className="text-[11px] text-stone-500 mt-4 pt-3 border-t border-stone-800/60">
                 Prompt email reply
               </p>
             </div>
 
             {/* Address */}
-            <div className="p-6 bg-white border border-stone-200 rounded-sm flex flex-col justify-between">
+            <div className="p-6 bg-[#181614] border border-stone-800/80 rounded-sm flex flex-col justify-between hover:border-[#c5a880]/30 transition-colors">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-amber-700 block mb-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#c5a880] block mb-2">
                   Location
                 </span>
-                <h2 className="text-lg font-serif font-bold text-stone-900 mb-3">
+                <h2 className="text-lg font-serif font-bold text-stone-100 mb-3">
                   Physical Address
                 </h2>
-                <div className="text-sm text-stone-700 leading-relaxed">
+                <div className="text-sm text-stone-300 leading-relaxed">
                   {address ? (
                     <p>{address}</p>
                   ) : (
-                    <p className="text-stone-400">{hotelName}</p>
+                    <p className="text-stone-500">{hotelName}</p>
                   )}
                 </div>
               </div>
               {mapUrl && (
-                <div className="mt-4 pt-3 border-t border-stone-100">
+                <div className="mt-4 pt-3 border-t border-stone-800/60">
                   <a
                     href={mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-semibold text-amber-800 hover:text-amber-900 inline-flex items-center gap-1 transition-colors"
+                    className="text-xs font-semibold text-[#c5a880] hover:text-[#dfc282] inline-flex items-center gap-1 transition-colors"
                   >
                     Open in Maps &rarr;
                   </a>
@@ -134,30 +134,30 @@ export default function ContactPage() {
             </div>
 
             {/* Check-In / Check-Out */}
-            <div className="p-6 bg-white border border-stone-200 rounded-sm flex flex-col justify-between">
+            <div className="p-6 bg-[#181614] border border-stone-800/80 rounded-sm flex flex-col justify-between hover:border-[#c5a880]/30 transition-colors">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-amber-700 block mb-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#c5a880] block mb-2">
                   Hours &amp; Timing
                 </span>
-                <h2 className="text-lg font-serif font-bold text-stone-900 mb-3">
+                <h2 className="text-lg font-serif font-bold text-stone-100 mb-3">
                   Stay Schedule
                 </h2>
-                <div className="space-y-2 text-sm text-stone-700">
+                <div className="space-y-2 text-sm text-stone-300">
                   <div>
-                    <span className="text-xs text-stone-500 block uppercase tracking-wider">Check-In</span>
-                    <span className="font-medium text-stone-900">
+                    <span className="text-xs text-stone-400 block uppercase tracking-wider">Check-In</span>
+                    <span className="font-medium text-stone-100">
                       {checkInTime || 'From 14:00'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-xs text-stone-500 block uppercase tracking-wider">Check-Out</span>
-                    <span className="font-medium text-stone-900">
+                    <span className="text-xs text-stone-400 block uppercase tracking-wider">Check-Out</span>
+                    <span className="font-medium text-stone-100">
                       {checkOutTime || 'Until 12:00'}
                     </span>
                   </div>
                 </div>
               </div>
-              <p className="text-[11px] text-stone-400 mt-4 pt-3 border-t border-stone-100">
+              <p className="text-[11px] text-stone-500 mt-4 pt-3 border-t border-stone-800/60">
                 Reception open 24/7
               </p>
             </div>
@@ -166,16 +166,16 @@ export default function ContactPage() {
       </section>
 
       {/* 3 & 4. GUEST FORMS (CONTACT MESSAGE & CALLBACK REQUEST) */}
-      <section aria-label="Guest Inquiries and Callback Requests" className="py-16 sm:py-24">
+      <section aria-label="Guest Inquiries and Callback Requests" className="py-16 sm:py-24 bg-[#0c0a09]">
         <Container>
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <p className="text-xs font-semibold uppercase tracking-widest text-amber-700 mb-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c5a880] mb-2">
               Get in Touch
             </p>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-stone-100 tracking-tight mb-4">
               How May We Help You?
             </h2>
-            <p className="text-sm text-stone-600 leading-relaxed">
+            <p className="text-sm text-stone-400 leading-relaxed">
               Send our team a direct inquiry or request a telephone callback at a time convenient for you.
             </p>
           </div>
@@ -198,14 +198,14 @@ export default function ContactPage() {
       {(address || mapUrl) && (
         <section
           aria-label="Location and Directions"
-          className="py-16 sm:py-20 bg-stone-900 text-white border-t border-stone-800"
+          className="py-16 sm:py-20 bg-[#080706] text-white border-t border-stone-800/80"
         >
           <Container>
             <div className="max-w-3xl mx-auto text-center space-y-6">
-              <span className="text-xs font-semibold uppercase tracking-widest text-amber-400 block">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c5a880] block">
                 Finding {hotelName}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-100">
                 Directions &amp; Arrival
               </h2>
               {address && (
@@ -222,7 +222,7 @@ export default function ContactPage() {
                     href={mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-wider bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors focus-visible:outline-2 focus-visible:outline-amber-600"
+                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-wider bg-[#c5a880] text-[#0c0a09] rounded-sm hover:bg-[#dfc282] transition-colors focus-visible:outline-2 focus-visible:outline-[#c5a880]"
                   >
                     View Interactive Map &amp; Directions &rarr;
                   </a>

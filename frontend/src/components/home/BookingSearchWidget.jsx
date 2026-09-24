@@ -88,12 +88,12 @@ export default function BookingSearchWidget({ className = '' }) {
   };
 
   return (
-    <div className={`bg-white rounded-sm shadow-xl border border-stone-200 p-4 sm:p-6 lg:p-8 ${className}`}>
+    <div className={`bg-[#141210] rounded-xs shadow-2xl border border-[#c5a880]/30 p-5 sm:p-7 lg:p-8 ${className}`}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Check-In */}
           <div className="flex flex-col">
-            <label htmlFor="search-check-in" className="text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1.5">
+            <label htmlFor="search-check-in" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2">
               Check-In
             </label>
             <input
@@ -103,13 +103,13 @@ export default function BookingSearchWidget({ className = '' }) {
               value={checkIn}
               onChange={handleCheckInChange}
               required
-              className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-300 rounded-sm text-sm text-stone-900 focus:bg-white focus:border-amber-700 focus:outline-none focus:ring-1 focus:ring-amber-700"
+              className="w-full px-3.5 py-2.5 bg-[#1a1714] border border-[#c5a880]/30 rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:border-[#c5a880] focus:outline-none focus:ring-1 focus:ring-[#c5a880]"
             />
           </div>
 
           {/* Check-Out */}
           <div className="flex flex-col">
-            <label htmlFor="search-check-out" className="text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1.5">
+            <label htmlFor="search-check-out" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2">
               Check-Out
             </label>
             <input
@@ -119,23 +119,23 @@ export default function BookingSearchWidget({ className = '' }) {
               value={checkOut}
               onChange={handleCheckOutChange}
               required
-              className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-300 rounded-sm text-sm text-stone-900 focus:bg-white focus:border-amber-700 focus:outline-none focus:ring-1 focus:ring-amber-700"
+              className="w-full px-3.5 py-2.5 bg-[#1a1714] border border-[#c5a880]/30 rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:border-[#c5a880] focus:outline-none focus:ring-1 focus:ring-[#c5a880]"
             />
           </div>
 
           {/* Adults */}
           <div className="flex flex-col">
-            <label htmlFor="search-adults" className="text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1.5">
+            <label htmlFor="search-adults" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2">
               Adults
             </label>
             <select
               id="search-adults"
               value={adults}
               onChange={(e) => setAdults(Number(e.target.value))}
-              className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-300 rounded-sm text-sm text-stone-900 focus:bg-white focus:border-amber-700 focus:outline-none focus:ring-1 focus:ring-amber-700"
+              className="w-full px-3.5 py-2.5 bg-[#1a1714] border border-[#c5a880]/30 rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:border-[#c5a880] focus:outline-none focus:ring-1 focus:ring-[#c5a880]"
             >
               {[1, 2, 3, 4, 5, 6].map((num) => (
-                <option key={num} value={num}>
+                <option key={num} value={num} className="bg-[#141210] text-stone-100">
                   {num} {num === 1 ? 'Adult' : 'Adults'}
                 </option>
               ))}
@@ -144,17 +144,17 @@ export default function BookingSearchWidget({ className = '' }) {
 
           {/* Children & Submit CTA */}
           <div className="flex flex-col sm:col-span-2 lg:col-span-1">
-            <label htmlFor="search-children" className="text-xs font-semibold uppercase tracking-wider text-stone-700 mb-1.5">
+            <label htmlFor="search-children" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2">
               Children
             </label>
             <select
               id="search-children"
               value={children}
               onChange={(e) => setChildren(Number(e.target.value))}
-              className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-300 rounded-sm text-sm text-stone-900 focus:bg-white focus:border-amber-700 focus:outline-none focus:ring-1 focus:ring-amber-700"
+              className="w-full px-3.5 py-2.5 bg-[#1a1714] border border-[#c5a880]/30 rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:border-[#c5a880] focus:outline-none focus:ring-1 focus:ring-[#c5a880]"
             >
               {[0, 1, 2, 3, 4].map((num) => (
-                <option key={num} value={num}>
+                <option key={num} value={num} className="bg-[#141210] text-stone-100">
                   {num} {num === 1 ? 'Child' : 'Children'}
                 </option>
               ))}
@@ -164,7 +164,7 @@ export default function BookingSearchWidget({ className = '' }) {
 
         {/* Validation error message */}
         {validationError && (
-          <p role="alert" className="text-xs text-rose-700 font-medium">
+          <p role="alert" className="text-xs text-rose-400 font-medium">
             {validationError}
           </p>
         )}
@@ -173,7 +173,7 @@ export default function BookingSearchWidget({ className = '' }) {
         <div className="pt-2 flex justify-end">
           <button
             type="submit"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-amber-700 focus-visible:outline-offset-2"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-[#c5a880] focus-visible:outline-offset-2"
           >
             Check Rooms &amp; Rates
           </button>

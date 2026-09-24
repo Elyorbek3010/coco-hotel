@@ -1,17 +1,52 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --color-gold-100: #fbf6ec;
+  --color-gold-200: #f5e8cc;
+  --color-gold-300: #ecd7a9;
+  --color-gold-400: #dfc282;
+  --color-gold-500: #c5a880;
+  --color-gold-600: #b89047;
+  --color-gold-700: #9e7832;
+  --color-gold-800: #7d5e23;
+  --color-gold-900: #5c4418;
+}
+
 html {
   scroll-behavior: smooth;
+  font-family: var(--font-sans);
 }
 
 body {
-  background-color: #fafaf9;
-  color: #292524;
+  background-color: #0c0a09;
+  color: #e7e5e4;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background-color: #fef3c7;
-  color: #78350f;
+  background-color: #c5a880;
+  color: #0c0a09;
+}
+
+/* Refined luxury utility classes */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #dfc282 0%, #c5a880 50%, #9e7832 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #dfc282 0%, #c5a880 50%, #b89047 100%);
+}
+
+.gold-border {
+  border-color: rgba(197, 168, 128, 0.3);
+}
+
+.gold-border-strong {
+  border-color: rgba(197, 168, 128, 0.6);
 }

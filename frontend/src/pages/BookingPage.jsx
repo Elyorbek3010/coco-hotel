@@ -304,17 +304,17 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="py-12 sm:py-16 lg:py-20">
+    <div className="py-12 sm:py-16 lg:py-20 bg-[#0c0a09]">
       <Container>
         {/* HERO TITLE */}
         <div className="max-w-3xl mb-10 sm:mb-14">
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-700 mb-2">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#c5a880] mb-2">
             Reservations Desk
           </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-stone-900 tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-semibold text-stone-100 tracking-tight mb-4">
             Book Your Stay
           </h1>
-          <p className="text-base text-stone-600 leading-relaxed font-light">
+          <p className="text-base text-stone-300 leading-relaxed font-light">
             Submit your stay preferences below. Our front desk team will review your inquiry and contact you directly to confirm availability and finalize arrangements.
           </p>
         </div>
@@ -333,17 +333,17 @@ export default function BookingPage() {
             />
           </div>
         ) : rooms.length === 0 ? (
-          <div className="max-w-xl mx-auto py-12 p-8 bg-white border border-stone-200 rounded-sm text-center">
-            <h2 className="font-serif text-xl font-bold text-stone-900 mb-2">
+          <div className="max-w-xl mx-auto py-12 p-8 bg-[#141210] border border-stone-800 rounded-xs text-center">
+            <h2 className="font-serif text-xl font-semibold text-stone-100 mb-2">
               Rooms Being Updated
             </h2>
-            <p className="text-sm text-stone-600 mb-6 leading-relaxed">
+            <p className="text-sm text-stone-400 mb-6 leading-relaxed font-light">
               Our accommodations catalogue is currently being refreshed. Please contact our front desk directly for live reservation assistance.
             </p>
             {hotelInfo?.phone && (
               <a
                 href={`tel:${hotelInfo.phone}`}
-                className="inline-flex items-center px-6 py-3 text-xs font-semibold uppercase tracking-wider bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors"
+                className="inline-flex items-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors"
               >
                 Call Front Desk ({hotelInfo.phone})
               </a>
@@ -353,60 +353,60 @@ export default function BookingPage() {
           /* SUCCESS VIEW */
           <div className="max-w-3xl mx-auto space-y-8 animate-fadeIn">
             {/* Header Status Card */}
-            <div className="p-8 sm:p-10 bg-white border border-stone-200 rounded-sm shadow-sm text-center space-y-4">
-              <div className="w-14 h-14 mx-auto rounded-full bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-200">
+            <div className="p-8 sm:p-10 bg-[#141210] border border-[#c5a880]/30 rounded-xs shadow-2xl text-center space-y-4">
+              <div className="w-14 h-14 mx-auto rounded-full bg-[#1f1b17] text-[#c5a880] flex items-center justify-center border border-[#c5a880]/30">
                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
 
-              <p className="text-xs font-semibold uppercase tracking-widest text-amber-700">
+              <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#c5a880]">
                 {isDuplicate ? 'Request Already In Progress' : 'Inquiry Successfully Submitted'}
               </p>
 
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900">
+              <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-stone-100">
                 {isDuplicate
                   ? 'Your Request Has Already Been Received'
                   : 'Your Booking Request Has Been Received'}
               </h2>
 
-              <p className="text-sm text-stone-600 max-w-lg mx-auto leading-relaxed">
+              <p className="text-sm text-stone-300 max-w-lg mx-auto leading-relaxed font-light">
                 {isDuplicate
                   ? 'We have already logged a booking inquiry with these details. Our hotel staff is actively reviewing it and will reach out shortly.'
                   : 'Thank you for choosing Coco Hotel. Our reservations team will contact you via phone or email to confirm availability, rates, and complete your reservation.'}
               </p>
 
-              <div className="inline-block px-3 py-1 bg-stone-100 border border-stone-200 text-xs font-mono text-stone-700 rounded-xs">
+              <div className="inline-block px-3.5 py-1 bg-[#181614] border border-[#c5a880]/20 text-xs font-mono text-[#dfc282] rounded-xs">
                 Reference ID: #{submissionResult.id} &bull; Status: Request Received
               </div>
             </div>
 
             {/* Request Summary Details Card */}
-            <div className="bg-white border border-stone-200 rounded-sm p-8 shadow-sm space-y-6">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-amber-700 pb-2 border-b border-stone-100">
+            <div className="bg-[#141210] border border-stone-800 rounded-xs p-8 shadow-xl space-y-6">
+              <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-[#c5a880] pb-2 border-b border-stone-800">
                 Submitted Stay Details
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
                 <div>
-                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5">
+                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5 font-medium">
                     Accommodation
                   </span>
-                  <span className="font-semibold text-stone-900">
+                  <span className="font-semibold text-stone-200">
                     {submissionResult.room_name_snapshot || selectedRoom?.name || 'Hotel Room'}
                   </span>
                   {submissionResult.price_per_night_snapshot && (
-                    <span className="text-xs text-stone-500 block">
+                    <span className="text-xs text-stone-400 block">
                       {formatUZSPrice(submissionResult.price_per_night_snapshot)} / night
                     </span>
                   )}
                 </div>
 
                 <div>
-                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5">
+                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5 font-medium">
                     Guests
                   </span>
-                  <span className="font-medium text-stone-900">
+                  <span className="font-medium text-stone-200">
                     {submissionResult.adults} {submissionResult.adults === 1 ? 'Adult' : 'Adults'}
                     {submissionResult.children > 0 &&
                       `, ${submissionResult.children} ${submissionResult.children === 1 ? 'Child' : 'Children'}`}
@@ -414,51 +414,51 @@ export default function BookingPage() {
                 </div>
 
                 <div>
-                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5">
+                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5 font-medium">
                     Check-In
                   </span>
-                  <span className="font-medium text-stone-900">
+                  <span className="font-medium text-stone-200">
                     {formatDate(submissionResult.check_in)}
                   </span>
                 </div>
 
                 <div>
-                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5">
+                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5 font-medium">
                     Check-Out
                   </span>
-                  <span className="font-medium text-stone-900">
+                  <span className="font-medium text-stone-200">
                     {formatDate(submissionResult.check_out)}
                   </span>
                 </div>
 
                 <div>
-                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5">
+                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5 font-medium">
                     Contact Name
                   </span>
-                  <span className="font-medium text-stone-900">
+                  <span className="font-medium text-stone-200">
                     {submissionResult.full_name}
                   </span>
                 </div>
 
                 <div>
-                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5">
+                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-0.5 font-medium">
                     Telephone &amp; Email
                   </span>
-                  <span className="font-medium text-stone-900 block">
+                  <span className="font-medium text-stone-200 block">
                     {submissionResult.phone}
                   </span>
-                  <span className="text-xs text-stone-600 block">
+                  <span className="text-xs text-stone-400 block">
                     {submissionResult.email}
                   </span>
                 </div>
               </div>
 
               {submissionResult.special_request && (
-                <div className="pt-4 border-t border-stone-100">
-                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-1">
+                <div className="pt-4 border-t border-stone-800">
+                  <span className="text-xs uppercase tracking-wider text-stone-400 block mb-1 font-medium">
                     Special Requests Note
                   </span>
-                  <p className="text-sm text-stone-700 bg-stone-50 p-4 border border-stone-200 rounded-sm">
+                  <p className="text-sm text-stone-300 bg-[#181614] p-4 border border-stone-800 rounded-xs font-light">
                     {submissionResult.special_request}
                   </p>
                 </div>
@@ -466,8 +466,8 @@ export default function BookingPage() {
             </div>
 
             {/* Crucial Hotel Confirmation Notice */}
-            <div className="p-6 bg-amber-50/70 border border-amber-200 rounded-sm text-xs text-stone-700 leading-relaxed">
-              <strong className="text-amber-950 font-semibold block mb-1">
+            <div className="p-6 bg-[#181614] border border-[#c5a880]/30 rounded-xs text-xs text-stone-300 leading-relaxed font-light">
+              <strong className="text-[#dfc282] font-semibold block mb-1">
                 Notice Regarding Manual Confirmation:
               </strong>
               Submitting this inquiry does not guarantee an immediate room booking or process payment. Your reservation is formally confirmed only once our staff contacts you and confirms room availability.
@@ -478,13 +478,13 @@ export default function BookingPage() {
               <button
                 type="button"
                 onClick={handleReset}
-                className="w-full sm:w-auto px-6 py-3 text-xs font-semibold uppercase tracking-wider border border-stone-300 text-stone-700 hover:bg-stone-50 rounded-sm transition-colors"
+                className="w-full sm:w-auto px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-[#c5a880]/40 text-[#c5a880] hover:bg-[#181614] hover:text-[#dfc282] rounded-xs transition-colors"
               >
                 Submit Another Request
               </button>
               <Link
                 to="/"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 text-xs font-semibold uppercase tracking-wider bg-stone-900 text-white rounded-sm hover:bg-stone-800 transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors"
               >
                 Return to Homepage &rarr;
               </Link>
@@ -494,14 +494,14 @@ export default function BookingPage() {
           /* MAIN FORM VIEW */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Form Column (7 cols) */}
-            <div className="lg:col-span-7 bg-white border border-stone-200 rounded-sm p-6 sm:p-8 lg:p-10 shadow-sm">
+            <div className="lg:col-span-7 bg-[#141210] border border-[#c5a880]/30 rounded-xs p-6 sm:p-8 lg:p-10 shadow-2xl">
               <form onSubmit={handleSubmit} noValidate className="space-y-6">
                 {/* Form-level error alert */}
                 {generalError && (
                   <div
                     role="alert"
                     aria-live="polite"
-                    className="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-sm text-xs leading-relaxed"
+                    className="p-4 bg-rose-950/40 border border-rose-800/60 text-rose-300 rounded-xs text-xs leading-relaxed"
                   >
                     {generalError}
                   </div>
@@ -511,30 +511,30 @@ export default function BookingPage() {
                 <div>
                   <label
                     htmlFor="booking-room"
-                    className="block text-xs font-semibold uppercase tracking-wider text-stone-800 mb-1.5"
+                    className="block text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2"
                   >
-                    Room Preference <span className="text-amber-700">*</span>
+                    Room Preference <span className="text-[#dfc282]">*</span>
                   </label>
                   <select
                     id="booking-room"
                     value={roomId}
                     onChange={handleRoomChange}
                     aria-describedby={fieldErrors.room ? 'booking-room-error' : undefined}
-                    className={`w-full px-3.5 py-2.5 bg-stone-50 border rounded-sm text-sm text-stone-900 focus:bg-white focus:outline-none focus:ring-1 ${
+                    className={`w-full px-3.5 py-2.5 bg-[#1a1714] border rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:outline-none focus:ring-1 ${
                       fieldErrors.room
-                        ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                        : 'border-stone-300 focus:border-amber-700 focus:ring-amber-700'
+                        ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-400'
+                        : 'border-[#c5a880]/30 focus:border-[#c5a880] focus:ring-[#c5a880]'
                     }`}
                   >
-                    <option value="">-- Choose a room type --</option>
+                    <option value="" className="bg-[#141210] text-stone-400">-- Choose a room type --</option>
                     {rooms.map((r) => (
-                      <option key={r.id} value={r.id}>
+                      <option key={r.id} value={r.id} className="bg-[#141210] text-stone-100">
                         {r.name} — {formatUZSPrice(r.price_per_night)} / night
                       </option>
                     ))}
                   </select>
                   {fieldErrors.room && (
-                    <p id="booking-room-error" role="alert" className="mt-1 text-xs text-rose-600 font-medium">
+                    <p id="booking-room-error" role="alert" className="mt-1 text-xs text-rose-400 font-medium">
                       {fieldErrors.room}
                     </p>
                   )}
@@ -545,9 +545,9 @@ export default function BookingPage() {
                   <div>
                     <label
                       htmlFor="booking-check-in"
-                      className="block text-xs font-semibold uppercase tracking-wider text-stone-800 mb-1.5"
+                      className="block text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2"
                     >
-                      Check-In Date <span className="text-amber-700">*</span>
+                      Check-In Date <span className="text-[#dfc282]">*</span>
                     </label>
                     <input
                       type="date"
@@ -556,14 +556,14 @@ export default function BookingPage() {
                       value={checkIn}
                       onChange={handleCheckInChange}
                       aria-describedby={fieldErrors.check_in ? 'booking-checkin-error' : undefined}
-                      className={`w-full px-3.5 py-2.5 bg-stone-50 border rounded-sm text-sm text-stone-900 focus:bg-white focus:outline-none focus:ring-1 ${
+                      className={`w-full px-3.5 py-2.5 bg-[#1a1714] border rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:outline-none focus:ring-1 ${
                         fieldErrors.check_in
-                          ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                          : 'border-stone-300 focus:border-amber-700 focus:ring-amber-700'
+                          ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-400'
+                          : 'border-[#c5a880]/30 focus:border-[#c5a880] focus:ring-[#c5a880]'
                       }`}
                     />
                     {fieldErrors.check_in && (
-                      <p id="booking-checkin-error" role="alert" className="mt-1 text-xs text-rose-600 font-medium">
+                      <p id="booking-checkin-error" role="alert" className="mt-1 text-xs text-rose-400 font-medium">
                         {fieldErrors.check_in}
                       </p>
                     )}
@@ -572,9 +572,9 @@ export default function BookingPage() {
                   <div>
                     <label
                       htmlFor="booking-check-out"
-                      className="block text-xs font-semibold uppercase tracking-wider text-stone-800 mb-1.5"
+                      className="block text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2"
                     >
-                      Check-Out Date <span className="text-amber-700">*</span>
+                      Check-Out Date <span className="text-[#dfc282]">*</span>
                     </label>
                     <input
                       type="date"
@@ -583,14 +583,14 @@ export default function BookingPage() {
                       value={checkOut}
                       onChange={handleCheckOutChange}
                       aria-describedby={fieldErrors.check_out ? 'booking-checkout-error' : undefined}
-                      className={`w-full px-3.5 py-2.5 bg-stone-50 border rounded-sm text-sm text-stone-900 focus:bg-white focus:outline-none focus:ring-1 ${
+                      className={`w-full px-3.5 py-2.5 bg-[#1a1714] border rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:outline-none focus:ring-1 ${
                         fieldErrors.check_out
-                          ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                          : 'border-stone-300 focus:border-amber-700 focus:ring-amber-700'
+                          ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-400'
+                          : 'border-[#c5a880]/30 focus:border-[#c5a880] focus:ring-[#c5a880]'
                       }`}
                     />
                     {fieldErrors.check_out && (
-                      <p id="booking-checkout-error" role="alert" className="mt-1 text-xs text-rose-600 font-medium">
+                      <p id="booking-checkout-error" role="alert" className="mt-1 text-xs text-rose-400 font-medium">
                         {fieldErrors.check_out}
                       </p>
                     )}
@@ -602,9 +602,9 @@ export default function BookingPage() {
                   <div>
                     <label
                       htmlFor="booking-adults"
-                      className="block text-xs font-semibold uppercase tracking-wider text-stone-800 mb-1.5"
+                      className="block text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2"
                     >
-                      Adults (Age 12+) <span className="text-amber-700">*</span>
+                      Adults (Age 12+) <span className="text-[#dfc282]">*</span>
                     </label>
                     <input
                       type="number"
@@ -617,19 +617,19 @@ export default function BookingPage() {
                         setFieldErrors((prev) => ({ ...prev, adults: '' }));
                       }}
                       aria-describedby={fieldErrors.adults ? 'booking-adults-error' : undefined}
-                      className={`w-full px-3.5 py-2.5 bg-stone-50 border rounded-sm text-sm text-stone-900 focus:bg-white focus:outline-none focus:ring-1 ${
+                      className={`w-full px-3.5 py-2.5 bg-[#1a1714] border rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:outline-none focus:ring-1 ${
                         fieldErrors.adults
-                          ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                          : 'border-stone-300 focus:border-amber-700 focus:ring-amber-700'
+                          ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-400'
+                          : 'border-[#c5a880]/30 focus:border-[#c5a880] focus:ring-[#c5a880]'
                       }`}
                     />
                     {fieldErrors.adults && (
-                      <p id="booking-adults-error" role="alert" className="mt-1 text-xs text-rose-600 font-medium">
+                      <p id="booking-adults-error" role="alert" className="mt-1 text-xs text-rose-400 font-medium">
                         {fieldErrors.adults}
                       </p>
                     )}
                     {selectedRoom && (
-                      <span className="text-[11px] text-stone-400 mt-0.5 block">
+                      <span className="text-[11px] text-stone-400 mt-0.5 block font-light">
                         Max: {selectedRoom.max_adults} adults for this room
                       </span>
                     )}
@@ -638,7 +638,7 @@ export default function BookingPage() {
                   <div>
                     <label
                       htmlFor="booking-children"
-                      className="block text-xs font-semibold uppercase tracking-wider text-stone-800 mb-1.5"
+                      className="block text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2"
                     >
                       Children
                     </label>
@@ -653,19 +653,19 @@ export default function BookingPage() {
                         setFieldErrors((prev) => ({ ...prev, children: '' }));
                       }}
                       aria-describedby={fieldErrors.children ? 'booking-children-error' : undefined}
-                      className={`w-full px-3.5 py-2.5 bg-stone-50 border rounded-sm text-sm text-stone-900 focus:bg-white focus:outline-none focus:ring-1 ${
+                      className={`w-full px-3.5 py-2.5 bg-[#1a1714] border rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:outline-none focus:ring-1 ${
                         fieldErrors.children
-                          ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                          : 'border-stone-300 focus:border-amber-700 focus:ring-amber-700'
+                          ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-400'
+                          : 'border-[#c5a880]/30 focus:border-[#c5a880] focus:ring-[#c5a880]'
                       }`}
                     />
                     {fieldErrors.children && (
-                      <p id="booking-children-error" role="alert" className="mt-1 text-xs text-rose-600 font-medium">
+                      <p id="booking-children-error" role="alert" className="mt-1 text-xs text-rose-400 font-medium">
                         {fieldErrors.children}
                       </p>
                     )}
                     {selectedRoom && (
-                      <span className="text-[11px] text-stone-400 mt-0.5 block">
+                      <span className="text-[11px] text-stone-400 mt-0.5 block font-light">
                         Max: {selectedRoom.max_children} children for this room
                       </span>
                     )}
@@ -673,17 +673,17 @@ export default function BookingPage() {
                 </div>
 
                 {/* 4. GUEST CONTACT DETAILS */}
-                <div className="pt-4 border-t border-stone-100 space-y-4">
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-500">
+                <div className="pt-4 border-t border-stone-800 space-y-4">
+                  <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-[#c5a880]">
                     Guest Contact Information
                   </h3>
 
                   <div>
                     <label
                       htmlFor="booking-fullname"
-                      className="block text-xs font-semibold uppercase tracking-wider text-stone-800 mb-1.5"
+                      className="block text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2"
                     >
-                      Full Name <span className="text-amber-700">*</span>
+                      Full Name <span className="text-[#dfc282]">*</span>
                     </label>
                     <input
                       type="text"
@@ -696,14 +696,14 @@ export default function BookingPage() {
                       }}
                       placeholder="e.g. Elena Rostova"
                       aria-describedby={fieldErrors.full_name ? 'booking-fullname-error' : undefined}
-                      className={`w-full px-3.5 py-2.5 bg-stone-50 border rounded-sm text-sm text-stone-900 focus:bg-white focus:outline-none focus:ring-1 ${
+                      className={`w-full px-3.5 py-2.5 bg-[#1a1714] border rounded-xs text-sm text-stone-100 placeholder-stone-500 focus:bg-[#1f1b17] focus:outline-none focus:ring-1 ${
                         fieldErrors.full_name
-                          ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                          : 'border-stone-300 focus:border-amber-700 focus:ring-amber-700'
+                          ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-400'
+                          : 'border-[#c5a880]/30 focus:border-[#c5a880] focus:ring-[#c5a880]'
                       }`}
                     />
                     {fieldErrors.full_name && (
-                      <p id="booking-fullname-error" role="alert" className="mt-1 text-xs text-rose-600 font-medium">
+                      <p id="booking-fullname-error" role="alert" className="mt-1 text-xs text-rose-400 font-medium">
                         {fieldErrors.full_name}
                       </p>
                     )}
@@ -713,9 +713,9 @@ export default function BookingPage() {
                     <div>
                       <label
                         htmlFor="booking-phone"
-                        className="block text-xs font-semibold uppercase tracking-wider text-stone-800 mb-1.5"
+                        className="block text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2"
                       >
-                        Phone Number <span className="text-amber-700">*</span>
+                        Phone Number <span className="text-[#dfc282]">*</span>
                       </label>
                       <input
                         type="tel"
@@ -728,14 +728,14 @@ export default function BookingPage() {
                         }}
                         placeholder="+998 90 123 4567"
                         aria-describedby={fieldErrors.phone ? 'booking-phone-error' : undefined}
-                        className={`w-full px-3.5 py-2.5 bg-stone-50 border rounded-sm text-sm text-stone-900 focus:bg-white focus:outline-none focus:ring-1 ${
+                        className={`w-full px-3.5 py-2.5 bg-[#1a1714] border rounded-xs text-sm text-stone-100 placeholder-stone-500 focus:bg-[#1f1b17] focus:outline-none focus:ring-1 ${
                           fieldErrors.phone
-                            ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                            : 'border-stone-300 focus:border-amber-700 focus:ring-amber-700'
+                            ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-400'
+                            : 'border-[#c5a880]/30 focus:border-[#c5a880] focus:ring-[#c5a880]'
                         }`}
                       />
                       {fieldErrors.phone && (
-                        <p id="booking-phone-error" role="alert" className="mt-1 text-xs text-rose-600 font-medium">
+                        <p id="booking-phone-error" role="alert" className="mt-1 text-xs text-rose-400 font-medium">
                           {fieldErrors.phone}
                         </p>
                       )}
@@ -744,9 +744,9 @@ export default function BookingPage() {
                     <div>
                       <label
                         htmlFor="booking-email"
-                        className="block text-xs font-semibold uppercase tracking-wider text-stone-800 mb-1.5"
+                        className="block text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2"
                       >
-                        Email Address <span className="text-amber-700">*</span>
+                        Email Address <span className="text-[#dfc282]">*</span>
                       </label>
                       <input
                         type="email"
@@ -759,14 +759,14 @@ export default function BookingPage() {
                         }}
                         placeholder="elena@example.com"
                         aria-describedby={fieldErrors.email ? 'booking-email-error' : undefined}
-                        className={`w-full px-3.5 py-2.5 bg-stone-50 border rounded-sm text-sm text-stone-900 focus:bg-white focus:outline-none focus:ring-1 ${
+                        className={`w-full px-3.5 py-2.5 bg-[#1a1714] border rounded-xs text-sm text-stone-100 placeholder-stone-500 focus:bg-[#1f1b17] focus:outline-none focus:ring-1 ${
                           fieldErrors.email
-                            ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500'
-                            : 'border-stone-300 focus:border-amber-700 focus:ring-amber-700'
+                            ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-400'
+                            : 'border-[#c5a880]/30 focus:border-[#c5a880] focus:ring-[#c5a880]'
                         }`}
                       />
                       {fieldErrors.email && (
-                        <p id="booking-email-error" role="alert" className="mt-1 text-xs text-rose-600 font-medium">
+                        <p id="booking-email-error" role="alert" className="mt-1 text-xs text-rose-400 font-medium">
                           {fieldErrors.email}
                         </p>
                       )}
@@ -778,7 +778,7 @@ export default function BookingPage() {
                 <div className="pt-2">
                   <label
                     htmlFor="booking-special-request"
-                    className="block text-xs font-semibold uppercase tracking-wider text-stone-800 mb-1.5"
+                    className="block text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2"
                   >
                     Special Requests (Optional)
                   </label>
@@ -788,9 +788,9 @@ export default function BookingPage() {
                     value={specialRequest}
                     onChange={(e) => setSpecialRequest(e.target.value)}
                     placeholder="Arriving late, preferred quiet room, dietary requests..."
-                    className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-300 rounded-sm text-sm text-stone-900 focus:bg-white focus:border-amber-700 focus:outline-none focus:ring-1 focus:ring-amber-700"
+                    className="w-full px-3.5 py-2.5 bg-[#1a1714] border border-[#c5a880]/30 rounded-xs text-sm text-stone-100 placeholder-stone-500 focus:bg-[#1f1b17] focus:border-[#c5a880] focus:outline-none focus:ring-1 focus:ring-[#c5a880]"
                   />
-                  <span className="text-[11px] text-stone-400 mt-1 block">
+                  <span className="text-[11px] text-stone-400 mt-1 block font-light">
                     Special requests are subject to availability upon check-in.
                   </span>
                 </div>
@@ -800,18 +800,18 @@ export default function BookingPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full inline-flex items-center justify-center px-8 py-4 text-xs font-semibold uppercase tracking-widest bg-amber-700 text-white rounded-sm hover:bg-amber-800 transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-amber-700 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full inline-flex items-center justify-center px-8 py-4 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors shadow-lg focus-visible:outline-2 focus-visible:outline-[#c5a880] disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {submitting ? (
                       <span className="flex items-center gap-2">
-                        <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <span className="w-3.5 h-3.5 border-2 border-stone-950/30 border-t-stone-950 rounded-full animate-spin" />
                         Submitting Request...
                       </span>
                     ) : (
                       'Submit Booking Request'
                     )}
                   </button>
-                  <p className="text-[11px] text-stone-500 text-center mt-2.5">
+                  <p className="text-[11px] text-stone-400 text-center mt-2.5 font-light">
                     No charge is made at this stage. Hotel staff will contact you to confirm.
                   </p>
                 </div>
