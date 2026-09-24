@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useHotel } from '../../hooks/useHotel';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -12,6 +13,8 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const { hotelInfo } = useHotel();
+  const hotelName = hotelInfo?.name || 'COCO HOTEL';
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentPath, setCurrentPath] = useState(location.pathname);
@@ -47,7 +50,7 @@ export default function Header() {
             className="flex flex-col group focus-visible:outline-2 focus-visible:outline-amber-700 focus-visible:outline-offset-4 rounded-sm"
           >
             <span className="font-serif text-2xl tracking-widest text-stone-900 font-bold group-hover:text-amber-800 transition-colors">
-              COCO HOTEL
+              {hotelName.toUpperCase()}
             </span>
             <span className="text-[10px] uppercase tracking-widest text-amber-700 font-medium">
               Boutique Sanctuary
