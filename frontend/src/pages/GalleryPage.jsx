@@ -8,9 +8,21 @@ import SectionTitle from '../components/common/SectionTitle';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 import RevealOnScroll from '../components/common/RevealOnScroll';
+import GoldWavePattern from '../components/common/GoldWavePattern';
+
+const SHOWCASE_FALLBACKS = [
+  { id: 'f-1', image: '/images/hero_exterior.jpg', title: 'Coco Hotel Architectural Facade', category: 'exterior' },
+  { id: 'f-2', image: '/images/hotel_lobby.jpg', title: 'Grand Chandelier Lobby & Lounge', category: 'interior' },
+  { id: 'f-3', image: '/images/hotel_dining.jpg', title: 'Gourmet Morning Dining Room', category: 'dining' },
+  { id: 'f-4', image: '/images/room_deluxe.jpg', title: 'Deluxe King Suite Bedroom', category: 'rooms' },
+  { id: 'f-5', image: '/images/room_suite.jpg', title: 'Executive Luxury Suite Salon', category: 'rooms' },
+  { id: 'f-6', image: '/images/hotel_lounge.jpg', title: 'Evening Velvet Bar & Lounge', category: 'interior' },
+  { id: 'f-7', image: '/images/hotel_details.jpg', title: 'Bespoke Architectural Finishes', category: 'interior' },
+  { id: 'f-8', image: '/images/room_twin.jpg', title: 'Twin Deluxe Suite Bedroom', category: 'rooms' },
+];
 
 export default function GalleryPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   usePageMeta({
     title: t('meta.galleryTitle'),
     description: t('meta.galleryDesc'),
@@ -20,18 +32,23 @@ export default function GalleryPage() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [brokenIds, setBrokenIds] = useState(() => new Set());
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeImage, setActiveImage] = useState(null);
 
   const handleRetry = () => {
     setLoading(true);
     setError(false);
     getGallery()
       .then((data) => {
-        setImages(Array.isArray(data) ? data : []);
+        if (Array.isArray(data) && data.length > 0) {
+          setImages(data);
+        } else {
+          setImages(SHOWCASE_FALLBACKS);
+        }
         setLoading(false);
       })
       .catch(() => {
-        setError(true);
+        setImages(SHOWCASE_FALLBACKS);
         setLoading(false);
       });
   };
@@ -41,13 +58,17 @@ export default function GalleryPage() {
     getGallery()
       .then((data) => {
         if (isMounted) {
-          setImages(Array.isArray(data) ? data : []);
+          if (Array.isArray(data) && data.length > 0) {
+            setImages(data);
+          } else {
+            setImages(SHOWCASE_FALLBACKS);
+          }
           setLoading(false);
         }
       })
       .catch(() => {
         if (isMounted) {
-          setError(true);
+          setImages(SHOWCASE_FALLBACKS);
           setLoading(false);
         }
       });
@@ -55,61 +76,89 @@ export default function GalleryPage() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [language]);
 
-  const handleImageError = (id) => {
-    setBrokenIds((prev) => {
-      const next = new Set(prev);
-      next.add(id);
-      return next;
-    });
-  };
+  const categories = [
+    { key: 'all', label: language === 'uz' ? 'Barchasi' : language === 'ru' ? 'Все фото' : 'All Views' },
+    { key: 'rooms', label: language === 'uz' ? 'Xonalar' : language === 'ru' ? 'Номера' : 'Rooms & Suites' },
+    { key: 'interior', label: language === 'uz' ? 'Interyer' : language === 'ru' ? 'Интерьер' : 'Interior & Lobby' },
+    { key: 'dining', label: language === 'uz' ? 'Restoran' : language === 'ru' ? 'Ресторан' : 'Dining' },
+    { key: 'exterior', label: language === 'uz' ? 'Eksteryer' : language === 'ru' ? 'Экстерьер' : 'Exterior' },
+  ];
 
-  const visibleImages = images.filter((img) => !brokenIds.has(img.id));
+  const filteredImages = images.filter((item, idx) => {
+    if (activeCategory === 'all') return true;
+    const itemCat = item.category || (idx % 2 === 0 ? 'rooms' : idx % 3 === 0 ? 'dining' : 'interior');
+    return itemCat === activeCategory;
+  });
 
   return (
     <div className="flex flex-col bg-theme-main transition-colors duration-200">
       {/* 1. HERO HEADER */}
       <section
         aria-label="Gallery Header"
-        className="bg-theme-secondary text-theme-main py-16 sm:py-24 border-b border-theme transition-colors duration-200"
+        className="relative bg-theme-secondary text-theme-main py-20 sm:py-28 border-b border-theme overflow-hidden transition-colors duration-200"
       >
-        <Container className="text-center">
+        <GoldWavePattern opacity={0.14} />
+        <Container className="relative z-10 text-center">
           <RevealOnScroll variant="up">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-theme-gold mb-3">
+            <span className="inline-block px-3.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-[0.25em] text-[#fae28e] bg-[#dfba56]/15 border border-[#dfba56]/30 mb-4">
               {t('gallery.subtitle')}
-            </p>
-            <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-theme-main tracking-tight mb-4">
+            </span>
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-theme-main tracking-tight mb-4">
               {t('gallery.title')}
             </h1>
             <p className="text-base sm:text-lg text-theme-muted font-light max-w-2xl mx-auto leading-relaxed">
               {t('gallery.intro')}
             </p>
+
+            {/* Filter Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+              {categories.map((cat) => {
+                const isActive = activeCategory === cat.key;
+                return (
+                  <button
+                    key={cat.key}
+                    type="button"
+                    onClick={() => setActiveCategory(cat.key)}
+                    className={`px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                      isActive
+                        ? 'bg-gold-metallic text-stone-950 shadow-md shadow-[#dfba56]/20'
+                        : 'bg-theme-surface text-theme-muted border border-theme hover:border-[#dfba56]/50 hover:text-theme-main'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                );
+              })}
+            </div>
           </RevealOnScroll>
         </Container>
       </section>
 
       {/* 2. GALLERY GRID */}
-      <section aria-label="Hotel Photographs" className="py-16 sm:py-24 bg-theme-main">
-        <Container>
+      <section aria-label="Hotel Photographs" className="relative py-16 sm:py-24 bg-theme-main">
+        <GoldWavePattern opacity={0.06} />
+        <Container className="relative z-10">
           {loading ? (
             <LoadingState />
           ) : error ? (
             <ErrorState onRetry={handleRetry} />
-          ) : visibleImages.length === 0 ? (
-            <div className="text-center py-16 px-6 bg-theme-surface border border-theme rounded-xs max-w-xl mx-auto shadow-md">
-              <h2 className="font-serif text-xl font-semibold text-theme-main mb-2">
+          ) : filteredImages.length === 0 ? (
+            <div className="text-center py-16 px-6 bg-theme-surface border border-theme rounded-2xl max-w-xl mx-auto shadow-xl">
+              <h2 className="font-serif text-xl font-bold text-theme-main mb-2">
                 {t('gallery.empty')}
               </h2>
               <p className="text-sm text-theme-muted mb-6 leading-relaxed font-light">
                 {t('rooms.updatingDesc')}
               </p>
-              <Link
-                to="/rooms"
-                className="inline-flex items-center px-6 py-2.5 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 transition-colors"
+              <button
+                type="button"
+                onClick={() => setActiveCategory('all')}
+                className="inline-flex items-center px-6 py-2.5 text-xs font-bold uppercase tracking-widest bg-gold-metallic text-stone-950 rounded-xl hover:shadow-lg transition-all"
               >
-                {t('home.exploreRooms')}
-              </Link>
+                {language === 'uz' ? 'Barcha fotosuratlarni ko‘rish' : language === 'ru' ? 'Показать все фото' : 'Show All Photos'}
+              </button>
             </div>
           ) : (
             <div className="space-y-12">
@@ -120,32 +169,47 @@ export default function GalleryPage() {
                 />
               </RevealOnScroll>
 
-              {/* Editorial Masonry-style Grid */}
+              {/* Luxury Masonry Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {visibleImages.map((item, idx) => (
-                  <RevealOnScroll key={item.id} variant="up" delay={idx * 60}>
+                {filteredImages.map((item, idx) => (
+                  <RevealOnScroll key={item.id || idx} variant="up" delay={idx * 50}>
                     <figure
-                      className={`group relative overflow-hidden bg-theme-elevated rounded-xs border border-theme flex flex-col justify-end hover:border-[var(--color-gold)] transition-all duration-300 shadow-md hover:shadow-xl ${
+                      onClick={() => setActiveImage(item)}
+                      className={`group relative overflow-hidden bg-theme-elevated rounded-2xl border border-theme hover:border-[#dfba56]/70 flex flex-col justify-end transition-all duration-500 shadow-xl hover:shadow-2xl cursor-pointer ${
                         idx === 0 ? 'sm:col-span-2 sm:aspect-16/9 aspect-4/3' : 'aspect-4/3'
                       }`}
                     >
                       <img
-                        src={item.image}
-                        alt={item.alt_text || item.title || 'Coco Hotel sanctuary view'}
+                        src={item.image || '/images/hero_exterior.jpg'}
+                        alt={item.alt_text || item.title || 'Coco Hotel sanctuary'}
                         loading="lazy"
                         decoding="async"
-                        onError={() => handleImageError(item.id)}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/images/hero_exterior.jpg';
+                        }}
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       />
 
-                      {/* Gradient Overlay & Caption */}
-                      {item.title && (
-                        <figcaption className="relative z-10 p-5 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-stone-100 transition-opacity duration-300">
-                          <p className="text-xs font-medium tracking-wider uppercase text-stone-200">
-                            {item.title}
+                      {/* Golden Shimmer Glow Overlay on Hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-300" />
+
+                      {/* Caption */}
+                      <figcaption className="relative z-10 p-6 text-stone-100 flex items-end justify-between">
+                        <div>
+                          <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#fae28e] mb-1">
+                            Coco Hotel
                           </p>
-                        </figcaption>
-                      )}
+                          <h3 className="font-serif text-base sm:text-lg font-semibold text-white">
+                            {item.title || item.alt_text || 'Sanctuary View'}
+                          </h3>
+                        </div>
+                        <span className="w-9 h-9 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-[#fae28e] group-hover:scale-110 group-hover:bg-[#dfba56] group-hover:text-stone-950 transition-all duration-300 shrink-0">
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                          </svg>
+                        </span>
+                      </figcaption>
                     </figure>
                   </RevealOnScroll>
                 ))}
@@ -154,19 +218,19 @@ export default function GalleryPage() {
               {/* Bottom CTA */}
               <RevealOnScroll variant="up" delay={150}>
                 <div className="pt-12 text-center border-t border-theme">
-                  <p className="text-sm text-theme-muted mb-4 font-light">
+                  <p className="text-sm text-theme-muted mb-6 font-light">
                     {t('gallery.experienceInPerson')}
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-4">
                     <Link
                       to="/rooms"
-                      className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-theme-gold text-theme-gold hover:bg-theme-surface rounded-xs transition-colors"
+                      className="inline-flex items-center justify-center px-7 py-3.5 text-xs font-semibold uppercase tracking-widest border border-[#dfba56] text-[#dfba56] hover:bg-[#dfba56]/10 rounded-xl transition-all"
                     >
                       {t('gallery.exploreRooms')}
                     </Link>
                     <Link
                       to="/booking"
-                      className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 active:brightness-95 transition-all shadow-md"
+                      className="inline-flex items-center justify-center px-8 py-3.5 text-xs font-bold uppercase tracking-widest bg-gold-metallic text-stone-950 rounded-xl hover:shadow-lg hover:shadow-[#dfba56]/25 active:scale-95 transition-all"
                     >
                       {t('gallery.requestReservation')}
                     </Link>
@@ -177,6 +241,49 @@ export default function GalleryPage() {
           )}
         </Container>
       </section>
+
+      {/* Lightbox Modal */}
+      {activeImage && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+          onClick={() => setActiveImage(null)}
+        >
+          <div
+            className="relative max-w-5xl w-full max-h-[90vh] bg-stone-950 rounded-2xl border border-white/20 overflow-hidden shadow-2xl flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setActiveImage(null)}
+              className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/70 text-white hover:text-[#fae28e] border border-white/20 flex items-center justify-center text-lg transition-colors cursor-pointer"
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <div className="relative flex-1 overflow-hidden bg-black flex items-center justify-center">
+              <img
+                src={activeImage.image || '/images/hero_exterior.jpg'}
+                alt={activeImage.title || 'Coco Hotel'}
+                className="max-h-[75vh] w-auto max-w-full object-contain"
+              />
+            </div>
+            <div className="p-6 bg-stone-950 border-t border-white/10 flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-[#fae28e] font-semibold">Coco Hotel Gallery</p>
+                <h4 className="text-lg font-serif text-white font-bold">{activeImage.title || 'Sanctuary View'}</h4>
+              </div>
+              <Link
+                to="/booking"
+                className="px-5 py-2.5 rounded-xl bg-gold-metallic text-stone-950 text-xs font-bold uppercase tracking-wider hover:shadow-lg transition-all"
+              >
+                {t('home.heroBook')}
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

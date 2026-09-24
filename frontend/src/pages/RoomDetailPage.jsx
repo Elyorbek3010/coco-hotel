@@ -4,16 +4,18 @@ import { usePageMeta } from '../hooks/usePageMeta';
 import { useLanguage } from '../hooks/useLanguage';
 import { getRoomBySlug } from '../api/rooms';
 import { formatUZSPrice } from '../utils/formatters';
+import { getRoomGalleryImages } from '../utils/roomImages';
 import Container from '../components/common/Container';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 import ServiceIcon from '../components/common/ServiceIcon';
 import RevealOnScroll from '../components/common/RevealOnScroll';
+import GoldWavePattern from '../components/common/GoldWavePattern';
 
 export default function RoomDetailPage() {
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -78,7 +80,7 @@ export default function RoomDetailPage() {
     return () => {
       isMounted = false;
     };
-  }, [slug]);
+  }, [slug, language]);
 
   // Build booking URL preserving incoming search parameters
   const buildBookingUrl = () => {
@@ -88,24 +90,20 @@ export default function RoomDetailPage() {
     return `/booking?${params.toString()}`;
   };
 
-  // Prepare images list
-  const allImages = [];
-  if (room?.images && room.images.length > 0) {
-    allImages.push(...room.images);
-  } else if (room?.primary_image?.image) {
-    allImages.push(room.primary_image);
-  }
-
-  const currentDisplayImage = allImages[activeImageIndex] || room?.primary_image || null;
+  // Prepare images list using helper to ensure beautiful display
+  const allImages = getRoomGalleryImages(room);
+  const currentDisplayImage = allImages[activeImageIndex] || allImages[0] || null;
 
   return (
-    <div className="py-12 sm:py-16 lg:py-20 bg-theme-main transition-colors duration-200">
-      <Container>
+    <div className="relative py-12 sm:py-16 lg:py-20 bg-theme-main transition-colors duration-200 overflow-hidden">
+      <GoldWavePattern variant="top-right" className="opacity-20 pointer-events-none" />
+
+      <Container className="relative z-10">
         {/* BREADCRUMB / BACK LINK */}
         <nav aria-label="Breadcrumb" className="mb-8">
           <Link
             to="/rooms"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-theme-gold hover:underline transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
+            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.15em] text-theme-gold hover:underline transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
           >
             <span aria-hidden="true">&larr;</span> {t('rooms.backToRooms')}
           </Link>
@@ -120,11 +118,11 @@ export default function RoomDetailPage() {
 
         {/* 404 NOT FOUND STATE */}
         {!loading && isNotFound && (
-          <div className="py-16 text-center max-w-lg mx-auto bg-theme-surface border border-theme rounded-xs p-8 sm:p-12 shadow-md">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-theme-gold mb-2">
+          <div className="py-16 text-center max-w-lg mx-auto bg-theme-surface border border-theme rounded-2xl p-8 sm:p-12 shadow-xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-theme-gold mb-2">
               404
             </p>
-            <h1 className="text-3xl font-serif font-semibold text-theme-main mb-3">
+            <h1 className="text-3xl font-serif font-bold text-theme-main mb-3">
               {t('rooms.roomNotFound')}
             </h1>
             <p className="text-sm text-theme-muted mb-8 leading-relaxed font-light">
@@ -133,7 +131,7 @@ export default function RoomDetailPage() {
             <div>
               <Link
                 to="/rooms"
-                className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 text-xs font-bold uppercase tracking-widest bg-gold-metallic gold-glow text-stone-950 rounded-full hover:brightness-110 transition-colors"
               >
                 {t('rooms.viewAllRooms')}
               </Link>
@@ -151,20 +149,23 @@ export default function RoomDetailPage() {
         {/* VALID ROOM DETAIL CONTENT */}
         {!loading && !isNotFound && !error && room && (
           <div className="space-y-12 lg:space-y-16">
-            {/* Header info */}
+            {/* Header info matching reference */}
             <RevealOnScroll variant="up">
               <div>
                 <div className="flex flex-wrap items-center gap-3 mb-2">
-                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-theme-gold">
-                    {t('rooms.roomDetails')}
+                  <div className="flex items-center gap-1 text-amber-400 text-sm">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                  </div>
+                  <span className="text-xs text-theme-muted font-medium">
+                    4.9 (24 reviews)
                   </span>
                   {room.is_featured && (
-                    <span className="bg-theme-elevated border border-theme-gold text-theme-gold text-[10px] font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-xs">
+                    <span className="bg-stone-950/80 border border-[var(--color-gold)] text-theme-gold text-[10px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full backdrop-blur-xs">
                       {t('rooms.featured')}
                     </span>
                   )}
                 </div>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-semibold text-theme-main tracking-tight">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-theme-main tracking-tight">
                   {room.name}
                 </h1>
               </div>
@@ -175,37 +176,28 @@ export default function RoomDetailPage() {
               {/* Image Gallery Column (7 cols on lg) */}
               <div className="lg:col-span-7 space-y-4">
                 <RevealOnScroll variant="left">
-                  <div className="relative aspect-16/10 sm:aspect-16/9 w-full bg-theme-elevated rounded-xs overflow-hidden border border-theme shadow-lg">
-                    {currentDisplayImage?.image ? (
-                      <img
-                        src={currentDisplayImage.image}
-                        alt={currentDisplayImage.alt_text || room.name}
-                        decoding="async"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center text-theme-subtle p-8 text-center bg-theme-elevated">
-                        <svg className="w-16 h-16 opacity-30 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                        </svg>
-                        <span className="text-xs uppercase tracking-widest text-theme-subtle">Coco Hotel Accommodation</span>
-                      </div>
-                    )}
+                  <div className="relative aspect-16/10 sm:aspect-16/9 w-full bg-theme-elevated rounded-3xl overflow-hidden border border-[var(--color-gold-border)] shadow-2xl">
+                    <img
+                      src={currentDisplayImage?.image}
+                      alt={currentDisplayImage?.alt_text || room.name}
+                      decoding="async"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
-                  {/* Thumbnails row if multiple images exist */}
+                  {/* Thumbnails row */}
                   {allImages.length > 1 && (
-                    <div className="grid grid-cols-4 sm:grid-cols-5 gap-3 pt-2">
+                    <div className="grid grid-cols-4 sm:grid-cols-4 gap-3 pt-2">
                       {allImages.map((img, idx) => (
                         <button
                           key={img.id || idx}
                           type="button"
                           onClick={() => setActiveImageIndex(idx)}
                           aria-label={`View photo ${idx + 1} of ${room.name}`}
-                          className={`aspect-4/3 overflow-hidden rounded-xs border-2 transition-all cursor-pointer ${
+                          className={`aspect-4/3 overflow-hidden rounded-xl border-2 transition-all cursor-pointer ${
                             activeImageIndex === idx
-                              ? 'border-theme-gold ring-2 ring-[var(--color-gold)]/30'
-                              : 'border-theme opacity-60 hover:opacity-100'
+                              ? 'border-[var(--color-gold)] shadow-md ring-2 ring-[var(--color-gold)]/30 scale-102'
+                              : 'border-theme opacity-70 hover:opacity-100'
                           }`}
                         >
                           <img
@@ -225,10 +217,10 @@ export default function RoomDetailPage() {
               {/* Sidebar Booking & Key Specs Column (5 cols on lg) */}
               <div className="lg:col-span-5">
                 <RevealOnScroll variant="right" delay={150}>
-                  <div className="sticky top-28 bg-theme-surface border border-theme rounded-xs p-6 sm:p-8 shadow-2xl space-y-6 transition-colors duration-200">
+                  <div className="sticky top-28 bg-theme-surface border border-[var(--color-gold-border)] rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 transition-colors duration-200">
                     {/* Pricing */}
                     <div className="pb-6 border-b border-theme">
-                      <span className="text-[10px] uppercase tracking-widest text-theme-subtle block mb-1 font-medium">
+                      <span className="text-[10px] uppercase tracking-widest text-theme-subtle block mb-1 font-semibold">
                         {t('rooms.ratePerNight')}
                       </span>
                       <div className="flex items-baseline gap-2">
@@ -285,9 +277,9 @@ export default function RoomDetailPage() {
                     <div className="pt-4">
                       <Link
                         to={buildBookingUrl()}
-                        className="w-full inline-flex items-center justify-center px-6 py-4 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 active:brightness-95 transition-all shadow-md focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
+                        className="w-full inline-flex items-center justify-center px-6 py-4 text-xs font-bold uppercase tracking-widest bg-gold-metallic gold-glow text-stone-950 rounded-full hover:brightness-110 active:scale-[0.98] transition-all shadow-lg focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
                       >
-                        {t('rooms.bookThisRoom')}
+                        {t('rooms.bookThisRoom')} &rarr;
                       </Link>
                       <p className="text-center text-[11px] text-theme-muted mt-2 font-light">
                         {t('rooms.bookingReviewNote')}
@@ -303,7 +295,7 @@ export default function RoomDetailPage() {
               {/* Description column */}
               <div className="lg:col-span-7 space-y-4">
                 <RevealOnScroll variant="up">
-                  <h2 className="text-xl sm:text-2xl font-serif font-semibold text-theme-main">
+                  <h2 className="text-xl sm:text-3xl font-serif font-bold text-theme-main">
                     {t('rooms.aboutRoom')}
                   </h2>
                   {room.description ? (
@@ -325,7 +317,7 @@ export default function RoomDetailPage() {
               {/* Amenities column */}
               <div className="lg:col-span-5 space-y-4">
                 <RevealOnScroll variant="up" delay={150}>
-                  <h2 className="text-xl sm:text-2xl font-serif font-semibold text-theme-main">
+                  <h2 className="text-xl sm:text-3xl font-serif font-bold text-theme-main">
                     {t('rooms.includedAmenities')}
                   </h2>
                   {room.amenities && room.amenities.length > 0 ? (
@@ -333,12 +325,12 @@ export default function RoomDetailPage() {
                       {room.amenities.map((amenity) => (
                         <li
                           key={amenity.id}
-                          className="flex items-center gap-3 p-3 bg-theme-elevated border border-theme rounded-xs text-theme-main"
+                          className="flex items-center gap-3 p-3 bg-theme-surface border border-theme rounded-xl text-theme-main shadow-sm"
                         >
-                          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-theme-surface text-theme-gold shrink-0 border border-theme">
+                          <div className="w-9 h-9 flex items-center justify-center rounded-xl bg-theme-elevated text-theme-gold shrink-0 border border-[var(--color-gold-border)] shadow-xs">
                             <ServiceIcon name={amenity.icon || amenity.name} className="w-4 h-4" />
                           </div>
-                          <span className="font-medium text-xs">{amenity.name}</span>
+                          <span className="font-semibold text-xs">{amenity.name}</span>
                         </li>
                       ))}
                     </ul>
@@ -355,13 +347,13 @@ export default function RoomDetailPage() {
             <div className="pt-8 border-t border-theme flex flex-col sm:flex-row items-center justify-between gap-4">
               <Link
                 to="/rooms"
-                className="text-xs font-semibold uppercase tracking-widest text-theme-gold hover:underline transition-colors"
+                className="text-xs font-bold uppercase tracking-widest text-theme-gold hover:underline transition-colors"
               >
                 &larr; {t('rooms.returnToRooms')}
               </Link>
               <Link
                 to={buildBookingUrl()}
-                className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 transition-colors shadow-sm"
+                className="inline-flex items-center justify-center px-8 py-3.5 text-xs font-bold uppercase tracking-widest bg-gold-metallic gold-glow text-stone-950 rounded-full hover:brightness-110 active:scale-[0.98] transition-all shadow-md"
               >
                 {t('rooms.proceedToReservation')} &rarr;
               </Link>

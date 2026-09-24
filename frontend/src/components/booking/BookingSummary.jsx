@@ -1,5 +1,6 @@
 import { formatUZSPrice, formatDate } from '../../utils/formatters';
 import { useLanguage } from '../../hooks/useLanguage';
+import { getRoomImageUrl } from '../../utils/roomImages';
 
 export default function BookingSummary({
   selectedRoom,
@@ -13,35 +14,60 @@ export default function BookingSummary({
   const phone = hotelInfo?.phone;
   const email = hotelInfo?.email;
 
+  // Calculate nights
+  let nights = 1;
+  if (checkIn && checkOut) {
+    const d1 = new Date(checkIn);
+    const d2 = new Date(checkOut);
+    const diffTime = d2.getTime() - d1.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays > 0) nights = diffDays;
+  }
+
+  const roomImage = selectedRoom ? getRoomImageUrl(selectedRoom) : null;
+  const pricePerNight = selectedRoom?.price_per_night ? Number(selectedRoom.price_per_night) : 0;
+  const totalPrice = pricePerNight * nights;
+
   return (
     <aside aria-label="Stay Summary and Booking Policy" className="space-y-6">
       {/* Selected Room & Dates Card */}
-      <div className="bg-theme-surface border border-theme rounded-xs p-6 shadow-xl transition-colors duration-200">
-        <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-theme-gold mb-4">
+      <div className="bg-theme-surface border border-[var(--color-gold-border)] rounded-2xl p-6 sm:p-7 shadow-2xl transition-colors duration-200">
+        <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-theme-gold mb-4">
           {t('booking.staySummary')}
         </h2>
 
         {selectedRoom ? (
           <div className="space-y-4">
-            <div>
-              <h3 className="text-lg font-serif font-semibold text-theme-main">
-                {selectedRoom.name}
-              </h3>
-              <p className="text-sm font-semibold text-theme-gold mt-0.5">
-                {formatUZSPrice(selectedRoom.price_per_night)}
-                <span className="text-xs text-theme-muted font-normal"> / {t('rooms.perNight')}</span>
-              </p>
+            {/* Room Thumbnail & Title */}
+            <div className="flex gap-4 items-center pb-4 border-b border-theme">
+              {roomImage && (
+                <div className="w-20 h-16 rounded-xl overflow-hidden bg-theme-elevated shrink-0 border border-theme">
+                  <img
+                    src={roomImage}
+                    alt={selectedRoom.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              <div>
+                <h3 className="text-base font-serif font-bold text-theme-main">
+                  {selectedRoom.name}
+                </h3>
+                <p className="text-xs text-theme-muted mt-0.5">
+                  {formatUZSPrice(selectedRoom.price_per_night)} / {t('rooms.perNight')}
+                </p>
+              </div>
             </div>
 
-            <div className="pt-3 border-t border-theme grid grid-cols-2 gap-3 text-xs">
+            <div className="pt-2 grid grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-theme-muted uppercase tracking-wider block font-medium">{t('booking.checkIn')}</span>
+                <span className="text-theme-subtle uppercase tracking-wider block font-semibold mb-0.5">{t('booking.checkIn')}</span>
                 <span className="font-semibold text-theme-main">
                   {checkIn ? formatDate(checkIn) : t('booking.notSelected')}
                 </span>
               </div>
               <div>
-                <span className="text-theme-muted uppercase tracking-wider block font-medium">{t('booking.checkOut')}</span>
+                <span className="text-theme-subtle uppercase tracking-wider block font-semibold mb-0.5">{t('booking.checkOut')}</span>
                 <span className="font-semibold text-theme-main">
                   {checkOut ? formatDate(checkOut) : t('booking.notSelected')}
                 </span>
@@ -50,10 +76,24 @@ export default function BookingSummary({
 
             <div className="pt-2 border-t border-theme flex items-center justify-between text-xs text-theme-muted">
               <span>{t('rooms.guests')}:</span>
-              <span className="font-medium text-theme-main">
+              <span className="font-semibold text-theme-main">
                 {adults} {adults === 1 ? t('booking.adult') : t('booking.adultsPlural')}
                 {childrenCount > 0 && `, ${childrenCount} ${childrenCount === 1 ? t('booking.child') : t('booking.childrenPlural')}`}
               </span>
+            </div>
+
+            {/* Price calculation */}
+            <div className="pt-3 border-t border-theme space-y-1.5 text-xs">
+              <div className="flex justify-between text-theme-muted">
+                <span>{nights} {nights === 1 ? 'night' : 'nights'}</span>
+                <span>{formatUZSPrice(pricePerNight)} × {nights}</span>
+              </div>
+              <div className="pt-2 border-t border-theme flex items-baseline justify-between">
+                <span className="font-bold text-sm uppercase tracking-wider text-theme-main">Total</span>
+                <span className="text-2xl font-serif font-bold text-theme-gold">
+                  {formatUZSPrice(totalPrice)}
+                </span>
+              </div>
             </div>
           </div>
         ) : (

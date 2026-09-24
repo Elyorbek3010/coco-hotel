@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import { formatUZSPrice } from '../../utils/formatters';
 import { useLanguage } from '../../hooks/useLanguage';
+import { getRoomImageUrl } from '../../utils/roomImages';
 
 export default function RoomCard({ room, searchParams = '' }) {
   const { t } = useLanguage();
   if (!room) return null;
 
-  const imageUrl = room.primary_image?.image;
+  const displayImage = getRoomImageUrl(room);
   const imageAlt = room.primary_image?.alt_text || room.name;
 
   const querySuffix = searchParams ? (searchParams.startsWith('?') ? searchParams : `?${searchParams}`) : '';
@@ -15,42 +16,20 @@ export default function RoomCard({ room, searchParams = '' }) {
     : `?room=${room.id}`;
 
   return (
-    <article className="group flex flex-col bg-theme-surface border border-theme rounded-xs overflow-hidden shadow-md hover:shadow-2xl hover:border-[var(--color-gold)] transition-all duration-300">
+    <article className="group flex flex-col bg-theme-surface border border-theme rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-[var(--color-gold)]/10 hover:border-[var(--color-gold)] transition-all duration-300">
       {/* Image container */}
       <div className="relative aspect-16/10 sm:aspect-4/3 w-full overflow-hidden bg-theme-elevated">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={imageAlt}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-          />
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-theme-elevated text-theme-muted p-6 text-center">
-            <svg
-              className="w-12 h-12 mb-2 opacity-40"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              strokeWidth="1.2"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-              />
-            </svg>
-            <span className="text-xs uppercase tracking-widest font-medium text-theme-subtle">
-              Coco Hotel
-            </span>
-          </div>
-        )}
+        <img
+          src={displayImage}
+          alt={imageAlt}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+        />
 
         {/* Featured badge if present */}
         {room.is_featured && (
-          <span className="absolute top-3 left-3 bg-theme-surface/90 border border-theme-gold text-theme-gold text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-xs backdrop-blur-xs">
+          <span className="absolute top-3.5 left-3.5 bg-stone-950/80 border border-[var(--color-gold)] text-theme-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-xs shadow-md">
             {t('rooms.featured')}
           </span>
         )}
@@ -58,7 +37,7 @@ export default function RoomCard({ room, searchParams = '' }) {
 
       {/* Card Content */}
       <div className="flex-1 flex flex-col p-6">
-        <h3 className="text-xl font-serif font-semibold text-theme-main mb-2 group-hover:text-theme-gold transition-colors break-words">
+        <h3 className="text-xl font-serif font-bold text-theme-main mb-2 group-hover:text-theme-gold transition-colors break-words">
           <Link
             to={`/rooms/${room.slug}${querySuffix}`}
             className="focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
@@ -109,10 +88,10 @@ export default function RoomCard({ room, searchParams = '' }) {
         {/* Pricing and Actions */}
         <div className="mt-auto flex flex-wrap items-end justify-between gap-3 pt-2">
           <div>
-            <span className="text-[10px] uppercase tracking-widest text-theme-subtle block font-medium">
+            <span className="text-[10px] uppercase tracking-widest text-theme-subtle block font-semibold">
               {t('rooms.startingFrom')}
             </span>
-            <span className="text-lg font-serif font-bold text-theme-main">
+            <span className="text-xl font-serif font-bold text-theme-main">
               {formatUZSPrice(room.price_per_night)}
             </span>
             <span className="text-xs text-theme-muted font-normal"> / {t('rooms.perNight')}</span>
@@ -121,13 +100,13 @@ export default function RoomCard({ room, searchParams = '' }) {
           <div className="flex items-center gap-2">
             <Link
               to={`/rooms/${room.slug}${querySuffix}`}
-              className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-theme-muted hover:text-theme-gold transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
+              className="px-3 py-2 text-xs font-bold uppercase tracking-wider text-theme-muted hover:text-theme-gold transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
             >
               {t('rooms.viewRoom')}
             </Link>
             <Link
               to={`/booking${bookingQuery}`}
-              className="px-3.5 py-2 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 active:brightness-95 transition-all shadow-sm focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
+              className="px-4 py-2 text-xs font-bold uppercase tracking-widest bg-gold-metallic gold-glow text-stone-950 rounded-full hover:brightness-110 active:scale-[0.98] transition-all shadow-md focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
             >
               {t('rooms.bookNow')}
             </Link>

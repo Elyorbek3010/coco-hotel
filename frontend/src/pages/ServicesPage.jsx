@@ -9,9 +9,10 @@ import ServiceIcon from '../components/common/ServiceIcon';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 import RevealOnScroll from '../components/common/RevealOnScroll';
+import GoldWavePattern from '../components/common/GoldWavePattern';
 
 export default function ServicesPage() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   usePageMeta({
     title: t('meta.servicesTitle'),
     description: t('meta.servicesDesc'),
@@ -55,25 +56,27 @@ export default function ServicesPage() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [language]);
 
   return (
     <div className="flex flex-col bg-theme-main transition-colors duration-200">
       {/* 1. HERO HEADER */}
       <section
         aria-label="Services Header"
-        className="bg-theme-secondary text-theme-main py-16 sm:py-24 border-b border-theme transition-colors duration-200"
+        className="relative bg-theme-secondary text-theme-main py-16 sm:py-24 border-b border-theme overflow-hidden transition-colors duration-200"
       >
-        <Container className="text-center">
+        <GoldWavePattern variant="top-right" className="opacity-30 pointer-events-none" />
+
+        <Container className="relative z-10 text-center">
           <RevealOnScroll variant="up">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-theme-gold mb-3">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-theme-gold mb-3">
               {t('services.guestAmenities')}
             </p>
-            <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-theme-main tracking-tight mb-4">
-              {t('services.title')}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-theme-main tracking-tight mb-4">
+              Our Services
             </h1>
             <p className="text-base sm:text-lg text-theme-muted font-light max-w-2xl mx-auto leading-relaxed">
-              {t('services.intro')}
+              Everything you need for a perfect stay, delivered with discreet care and attention.
             </p>
           </RevealOnScroll>
         </Container>
@@ -87,8 +90,8 @@ export default function ServicesPage() {
           ) : error ? (
             <ErrorState onRetry={handleRetry} />
           ) : services.length === 0 ? (
-            <div className="text-center py-16 px-6 bg-theme-surface border border-theme rounded-xs max-w-xl mx-auto shadow-md">
-              <h2 className="font-serif text-xl font-semibold text-theme-main mb-2">
+            <div className="text-center py-16 px-6 bg-theme-surface border border-theme rounded-2xl max-w-xl mx-auto shadow-md">
+              <h2 className="font-serif text-xl font-bold text-theme-main mb-2">
                 {t('services.updatingTitle')}
               </h2>
               <p className="text-sm text-theme-muted mb-6 leading-relaxed font-light">
@@ -96,7 +99,7 @@ export default function ServicesPage() {
               </p>
               <Link
                 to="/contact"
-                className="inline-flex items-center px-6 py-2.5 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 transition-colors"
+                className="inline-flex items-center px-6 py-2.5 text-xs font-bold uppercase tracking-widest bg-gold-metallic gold-glow text-stone-950 rounded-full hover:brightness-110 transition-colors shadow-sm"
               >
                 {t('rooms.contactConcierge')}
               </Link>
@@ -115,12 +118,12 @@ export default function ServicesPage() {
                   {services.map((service, idx) => (
                     <RevealOnScroll key={service.id} variant="up" delay={idx * 60}>
                       <div
-                        className="p-8 bg-theme-surface border border-theme rounded-xs hover:border-[var(--color-gold)] hover:shadow-xl transition-all duration-300 flex flex-col h-full group"
+                        className="p-8 bg-theme-surface border border-theme rounded-2xl hover:border-[var(--color-gold)] hover:shadow-2xl hover:shadow-[var(--color-gold)]/10 transition-all duration-300 flex flex-col h-full group"
                       >
-                        <div className="w-12 h-12 flex items-center justify-center rounded-full bg-theme-elevated text-theme-gold border border-theme mb-5 group-hover:border-[var(--color-gold)]/40 transition-colors">
-                          <ServiceIcon name={service.icon || service.name} className="w-6 h-6" />
+                        <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-theme-elevated text-theme-gold border border-[var(--color-gold-border)] mb-5 group-hover:scale-110 transition-transform duration-300 shadow-xs">
+                          <ServiceIcon name={service.icon || service.name} className="w-7 h-7" />
                         </div>
-                        <h3 className="font-serif text-xl font-semibold text-theme-main mb-2 group-hover:text-theme-gold transition-colors">
+                        <h3 className="font-serif text-xl font-bold text-theme-main mb-2 group-hover:text-theme-gold transition-colors">
                           {service.name}
                         </h3>
                         {service.description ? (

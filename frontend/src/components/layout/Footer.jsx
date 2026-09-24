@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useHotel } from '../../hooks/useHotel';
 import { useLanguage } from '../../hooks/useLanguage';
+import CocoLogo from '../common/CocoLogo';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -14,18 +15,17 @@ export default function Footer() {
   const address = hotelInfo?.address;
 
   return (
-    <footer className="bg-theme-secondary text-theme-muted mt-auto border-t border-theme transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-18">
+    <footer className="relative bg-theme-secondary text-theme-muted mt-auto border-t border-theme overflow-hidden transition-colors duration-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-18 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14">
           {/* Brand */}
           <div className="space-y-4">
             <Link
               to="/"
               className="inline-block focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
+              aria-label="Coco Hotel Home"
             >
-              <span className="font-serif text-2xl tracking-[0.25em] text-theme-main font-bold hover:text-theme-gold transition-colors">
-                {hotelName.toUpperCase()}
-              </span>
+              <CocoLogo size="default" />
             </Link>
             <p className="text-sm text-theme-muted max-w-sm leading-relaxed font-light">
               {t('footer.tagline')}
