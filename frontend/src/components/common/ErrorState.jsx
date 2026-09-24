@@ -1,23 +1,29 @@
+import { useLanguage } from '../../hooks/useLanguage';
+
 export default function ErrorState({
-  title = 'Something went wrong',
-  message = 'An error occurred while loading this section. Please try again.',
+  title,
+  message,
   onRetry,
   className = '',
 }) {
+  const { t } = useLanguage();
+  const displayTitle = title || t('common.errorTitle');
+  const displayMessage = message || t('common.errorMessage');
+
   return (
     <div
       role="alert"
-      className={`p-6 border border-stone-800 bg-[#141210] rounded-xs text-center ${className}`}
+      className={`p-6 border border-theme bg-theme-elevated rounded-xs text-center ${className}`}
     >
-      <h3 className="text-base font-serif font-semibold text-stone-100 mb-1">{title}</h3>
-      <p className="text-sm text-stone-400 mb-4">{message}</p>
+      <h3 className="text-base font-serif font-semibold text-theme-main mb-1">{displayTitle}</h3>
+      <p className="text-sm text-theme-muted mb-4">{displayMessage}</p>
       {onRetry && (
         <button
           type="button"
           onClick={onRetry}
-          className="inline-flex items-center px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#dfc282] bg-[#1a1714] border border-[#c5a880]/30 rounded-xs hover:border-[#c5a880] hover:bg-[#201c18] transition-colors focus-visible:outline-2 focus-visible:outline-[#c5a880]"
+          className="inline-flex items-center px-4 py-2 text-xs font-semibold uppercase tracking-wider text-theme-gold bg-theme-surface border border-theme-gold rounded-xs hover:bg-theme-gold hover:text-stone-950 transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] cursor-pointer"
         >
-          Try Again
+          {t('common.retry')}
         </button>
       )}
     </div>

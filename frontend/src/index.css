@@ -2,7 +2,7 @@
 
 @theme {
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   --color-gold-100: #fbf6ec;
   --color-gold-200: #f5e8cc;
@@ -15,32 +15,87 @@
   --color-gold-900: #5c4418;
 }
 
+:root, [data-theme="dark"], .dark {
+  --color-bg: #0c0a09;
+  --color-bg-secondary: #141210;
+  --color-surface: #141210;
+  --color-surface-elevated: #181614;
+  --color-surface-input: #1a1714;
+  --color-text: #f5f5f4;
+  --color-text-muted: #a8a29e;
+  --color-text-subtle: #78716c;
+  --color-border: rgba(41, 37, 36, 0.8);
+  --color-border-hover: rgba(197, 168, 128, 0.4);
+  --color-gold: #c5a880;
+  --color-gold-hover: #dfc282;
+  --color-gold-active: #a68a60;
+  --color-gold-bg: rgba(197, 168, 128, 0.12);
+  --color-shadow: rgba(0, 0, 0, 0.45);
+  --color-nav-bg: rgba(12, 10, 9, 0.94);
+  --color-card-border: rgba(41, 37, 36, 0.8);
+}
+
+[data-theme="light"], .light {
+  --color-bg: #faf8f5;
+  --color-bg-secondary: #f4efe6;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #fcfbf8;
+  --color-surface-input: #fdfcf9;
+  --color-text: #1c1917;
+  --color-text-muted: #57534e;
+  --color-text-subtle: #78716c;
+  --color-border: rgba(220, 215, 205, 0.8);
+  --color-border-hover: rgba(166, 130, 74, 0.5);
+  --color-gold: #a6824a;
+  --color-gold-hover: #8f6d38;
+  --color-gold-active: #785a2c;
+  --color-gold-bg: rgba(166, 130, 74, 0.1);
+  --color-shadow: rgba(44, 38, 30, 0.08);
+  --color-nav-bg: rgba(250, 248, 245, 0.94);
+  --color-card-border: rgba(220, 215, 205, 0.8);
+}
+
 html {
   scroll-behavior: smooth;
   font-family: var(--font-sans);
 }
 
 body {
-  background-color: #0c0a09;
-  color: #e7e5e4;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::selection {
-  background-color: #c5a880;
+  background-color: var(--color-gold);
   color: #0c0a09;
 }
 
-/* Refined luxury utility classes */
+/* Luxury theme utilities */
+.bg-theme-main { background-color: var(--color-bg); }
+.bg-theme-secondary { background-color: var(--color-bg-secondary); }
+.bg-theme-surface { background-color: var(--color-surface); }
+.bg-theme-elevated { background-color: var(--color-surface-elevated); }
+.bg-theme-input { background-color: var(--color-surface-input); }
+.bg-theme-gold { background-color: var(--color-gold); }
+.bg-theme-gold-subtle { background-color: var(--color-gold-bg); }
+
+.text-theme-main { color: var(--color-text); }
+.text-theme-muted { color: var(--color-text-muted); }
+.text-theme-subtle { color: var(--color-text-subtle); }
+.text-theme-gold { color: var(--color-gold); }
+
+.border-theme { border-color: var(--color-border); }
+.border-theme-gold { border-color: var(--color-gold); }
+.border-theme-gold-subtle { border-color: rgba(197, 168, 128, 0.25); }
+
+/* Refined luxury text & borders */
 .gold-gradient-text {
-  background: linear-gradient(135deg, #dfc282 0%, #c5a880 50%, #9e7832 100%);
+  background: linear-gradient(135deg, var(--color-gold-hover) 0%, var(--color-gold) 50%, var(--color-gold-active) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-.gold-gradient-bg {
-  background: linear-gradient(135deg, #dfc282 0%, #c5a880 50%, #b89047 100%);
 }
 
 .gold-border {
@@ -49,4 +104,14 @@ body {
 
 .gold-border-strong {
   border-color: rgba(197, 168, 128, 0.6);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

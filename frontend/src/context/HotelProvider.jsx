@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { getHotelInformation } from '../api/hotel';
 import { HotelContext } from './hotelContextDef';
+import { useLanguage } from '../hooks/useLanguage';
 
 export default function HotelProvider({ children }) {
+  const { language } = useLanguage();
   const [hotelInfo, setHotelInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,7 +28,7 @@ export default function HotelProvider({ children }) {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [language]);
 
   return (
     <HotelContext.Provider value={{ hotelInfo, loading, error }}>

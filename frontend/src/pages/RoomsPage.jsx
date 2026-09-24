@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { useLanguage } from '../hooks/useLanguage';
 import { getRooms } from '../api/rooms';
 import Container from '../components/common/Container';
 import SectionTitle from '../components/common/SectionTitle';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 import RoomCard from '../components/rooms/RoomCard';
+import RevealOnScroll from '../components/common/RevealOnScroll';
 
 export default function RoomsPage() {
+  const { t } = useLanguage();
   usePageMeta({
-    title: 'Rooms',
-    description: 'Explore available room types, amenities and nightly rates at Coco Hotel.',
+    title: t('meta.roomsTitle'),
+    description: t('meta.roomsDesc'),
     canonicalPath: '/rooms',
   });
 
@@ -58,68 +61,67 @@ export default function RoomsPage() {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-theme-main transition-colors duration-200">
       {/* 1. ROOMS PAGE HERO */}
       <section
         aria-label="Rooms Overview"
-        className="bg-[#0c0a09] text-white py-16 sm:py-24 border-b border-[#c5a880]/20"
+        className="bg-theme-secondary text-theme-main py-16 sm:py-24 border-b border-theme transition-colors duration-200"
       >
         <Container className="text-center">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#c5a880] mb-3">
-            Accommodations
-          </p>
-          <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-stone-100 tracking-tight mb-4">
-            Rooms &amp; Suites
-          </h1>
-          <p className="text-base sm:text-lg text-stone-300 font-light max-w-2xl mx-auto leading-relaxed">
-            A comfortable stay designed around rest, thoughtful simplicity, and refined boutique hospitality.
-          </p>
+          <RevealOnScroll variant="up">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-theme-gold mb-3">
+              {t('rooms.subtitle')}
+            </p>
+            <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-theme-main tracking-tight mb-4">
+              {t('rooms.title')}
+            </h1>
+            <p className="text-base sm:text-lg text-theme-muted font-light max-w-2xl mx-auto leading-relaxed">
+              {t('rooms.desc')}
+            </p>
+          </RevealOnScroll>
         </Container>
       </section>
 
       {/* 2. ROOM LISTINGS */}
-      <section aria-label="Available Rooms" className="py-16 sm:py-24 bg-[#0c0a09]">
+      <section aria-label="Available Rooms" className="py-16 sm:py-24 bg-theme-main transition-colors duration-200">
         <Container>
           {loading ? (
-            <LoadingState message="Discovering accommodations..." />
+            <LoadingState />
           ) : error ? (
-            <ErrorState
-              title="Unable to load accommodations"
-              message="We were unable to retrieve the room list. Please try again or reach out to our front desk."
-              onRetry={fetchRooms}
-            />
+            <ErrorState onRetry={fetchRooms} />
           ) : rooms.length > 0 ? (
             <div className="space-y-12">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {rooms.map((room) => (
-                  <RoomCard
-                    key={room.id}
-                    room={room}
-                    searchParams={searchParamsString}
-                  />
+                {rooms.map((room, idx) => (
+                  <RevealOnScroll key={room.id} variant="up" delay={idx * 80}>
+                    <RoomCard
+                      room={room}
+                      searchParams={searchParamsString}
+                    />
+                  </RevealOnScroll>
                 ))}
               </div>
             </div>
           ) : (
-            <div className="p-12 bg-[#141210] border border-stone-800 rounded-xs text-center max-w-xl mx-auto">
-              <h2 className="font-serif text-xl font-semibold text-stone-100 mb-3">
-                Room Information Updating
+            <div className="p-12 bg-theme-surface border border-theme rounded-xs text-center max-w-xl mx-auto shadow-md">
+              <h2 className="font-serif text-xl font-semibold text-theme-main mb-3">
+                {t('rooms.updatingTitle')}
               </h2>
-              <p className="text-sm text-stone-400 mb-6 leading-relaxed font-light">
-                Room information is currently being updated. Please contact our concierge desk directly or check back shortly.
+              <p className="text-sm text-theme-muted mb-6 leading-relaxed font-light">
+                {t('rooms.updatingDesc')}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   to="/contact"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 transition-colors"
                 >
-                  Contact Concierge
+                  {t('rooms.contactConcierge')}
                 </Link>
                 <Link
                   to="/"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-stone-700 text-stone-300 hover:bg-[#181614] hover:text-white rounded-xs transition-colors"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-theme text-theme-main hover:bg-theme-elevated rounded-xs transition-colors"
                 >
-                  Return to Home
+                  {t('rooms.returnHome')}
                 </Link>
               </div>
             </div>
@@ -130,31 +132,33 @@ export default function RoomsPage() {
       {/* 3. BOOKING CTA SECTION */}
       <section
         aria-label="Reservation Inquiry"
-        className="py-16 sm:py-20 bg-[#100e0c] border-t border-[#c5a880]/20"
+        className="py-16 sm:py-20 bg-theme-secondary border-t border-theme transition-colors duration-200"
       >
         <Container className="text-center">
-          <SectionTitle
-            subtitle="Plan Your Visit"
-            title="Ready to Plan Your Stay?"
-            centered
-          />
-          <p className="text-sm sm:text-base text-stone-300 max-w-xl mx-auto mb-8 leading-relaxed font-light">
-            Our reservations team is delighted to assist you with dates, room preferences, and personalized stay arrangements.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to={searchParamsString ? `/booking?${searchParamsString}` : '/booking'}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-[#c5a880]"
-            >
-              Book Your Stay
-            </Link>
-            <Link
-              to="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest border border-[#c5a880]/40 text-[#c5a880] hover:bg-[#181614] hover:text-[#dfc282] rounded-xs transition-colors focus-visible:outline-2 focus-visible:outline-[#c5a880]"
-            >
-              Inquire Directly
-            </Link>
-          </div>
+          <RevealOnScroll variant="up">
+            <SectionTitle
+              subtitle={t('rooms.planYourVisit')}
+              title={t('rooms.readyTitle')}
+              centered
+            />
+            <p className="text-sm sm:text-base text-theme-muted max-w-xl mx-auto mb-8 leading-relaxed font-light">
+              {t('rooms.readyDesc')}
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                to={searchParamsString ? `/booking?${searchParamsString}` : '/booking'}
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
+              >
+                {t('rooms.bookStay')}
+              </Link>
+              <Link
+                to="/contact"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest border border-theme-gold text-theme-gold hover:bg-theme-surface rounded-xs transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
+              >
+                {t('rooms.inquireDirectly')}
+              </Link>
+            </div>
+          </RevealOnScroll>
         </Container>
       </section>
     </div>

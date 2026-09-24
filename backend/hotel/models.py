@@ -13,19 +13,35 @@ class HotelInformation(models.Model):
     hero_title = models.CharField(
         max_length=200,
         default="Welcome to Coco Hotel",
-        help_text="Homepage hero section main title"
+        help_text="Homepage hero section main title (fallback)"
     )
+    hero_title_en = models.CharField(max_length=200, blank=True, default="", help_text="Hero title in English")
+    hero_title_uz = models.CharField(max_length=200, blank=True, default="", help_text="Hero title in Uzbek")
+    hero_title_ru = models.CharField(max_length=200, blank=True, default="", help_text="Hero title in Russian")
+
     hero_subtitle = models.TextField(
         blank=True,
         default="",
-        help_text="Homepage hero section supporting description"
+        help_text="Homepage hero section supporting description (fallback)"
     )
+    hero_subtitle_en = models.TextField(blank=True, default="", help_text="Hero subtitle in English")
+    hero_subtitle_uz = models.TextField(blank=True, default="", help_text="Hero subtitle in Uzbek")
+    hero_subtitle_ru = models.TextField(blank=True, default="", help_text="Hero subtitle in Russian")
+
     about_title = models.CharField(
         max_length=200,
         default="About Coco Hotel",
-        help_text="About section heading"
+        help_text="About section heading (fallback)"
     )
-    about_text = models.TextField(help_text="Detailed overview and story of the hotel")
+    about_title_en = models.CharField(max_length=200, blank=True, default="", help_text="About section heading in English")
+    about_title_uz = models.CharField(max_length=200, blank=True, default="", help_text="About section heading in Uzbek")
+    about_title_ru = models.CharField(max_length=200, blank=True, default="", help_text="About section heading in Russian")
+
+    about_text = models.TextField(help_text="Detailed overview and story of the hotel (fallback)")
+    about_text_en = models.TextField(blank=True, default="", help_text="Detailed overview and story in English")
+    about_text_uz = models.TextField(blank=True, default="", help_text="Detailed overview and story in Uzbek")
+    about_text_ru = models.TextField(blank=True, default="", help_text="Detailed overview and story in Russian")
+
     phone = models.CharField(max_length=50, help_text="Primary contact phone number")
     secondary_phone = models.CharField(
         max_length=50,
@@ -34,7 +50,10 @@ class HotelInformation(models.Model):
         help_text="Alternative contact phone number"
     )
     email = models.EmailField(help_text="Official contact email address")
-    address = models.CharField(max_length=255, help_text="Physical hotel address")
+    address = models.CharField(max_length=255, help_text="Physical hotel address (fallback)")
+    address_en = models.CharField(max_length=255, blank=True, default="", help_text="Physical hotel address in English")
+    address_uz = models.CharField(max_length=255, blank=True, default="", help_text="Physical hotel address in Uzbek")
+    address_ru = models.CharField(max_length=255, blank=True, default="", help_text="Physical hotel address in Russian")
     map_url = models.URLField(
         blank=True,
         default="",
@@ -95,8 +114,14 @@ class Service(models.Model):
     """
     Hotel service/amenity (e.g. Wi-Fi, Breakfast, Parking).
     """
-    name = models.CharField(max_length=100, unique=True, help_text="Service title")
-    description = models.TextField(blank=True, default="", help_text="Concise service description")
+    name = models.CharField(max_length=100, unique=True, help_text="Service title (fallback)")
+    name_en = models.CharField(max_length=100, blank=True, default="", help_text="Service title in English")
+    name_uz = models.CharField(max_length=100, blank=True, default="", help_text="Service title in Uzbek")
+    name_ru = models.CharField(max_length=100, blank=True, default="", help_text="Service title in Russian")
+    description = models.TextField(blank=True, default="", help_text="Concise service description (fallback)")
+    description_en = models.TextField(blank=True, default="", help_text="Service description in English")
+    description_uz = models.TextField(blank=True, default="", help_text="Service description in Uzbek")
+    description_ru = models.TextField(blank=True, default="", help_text="Service description in Russian")
     icon = models.CharField(
         max_length=50,
         blank=True,
@@ -137,13 +162,19 @@ class GalleryImage(models.Model):
     Hotel showcase image displayed in the website photo gallery.
     """
     image = models.ImageField(upload_to="gallery/", help_text="Upload gallery image")
-    title = models.CharField(max_length=150, blank=True, default="", help_text="Optional image title")
+    title = models.CharField(max_length=150, blank=True, default="", help_text="Optional image title (fallback)")
+    title_en = models.CharField(max_length=150, blank=True, default="", help_text="Optional image title in English")
+    title_uz = models.CharField(max_length=150, blank=True, default="", help_text="Optional image title in Uzbek")
+    title_ru = models.CharField(max_length=150, blank=True, default="", help_text="Optional image title in Russian")
     alt_text = models.CharField(
         max_length=200,
         blank=True,
         default="",
-        help_text="Accessible image description"
+        help_text="Accessible image description (fallback)"
     )
+    alt_text_en = models.CharField(max_length=200, blank=True, default="", help_text="Accessible image description in English")
+    alt_text_uz = models.CharField(max_length=200, blank=True, default="", help_text="Accessible image description in Uzbek")
+    alt_text_ru = models.CharField(max_length=200, blank=True, default="", help_text="Accessible image description in Russian")
     sort_order = models.PositiveIntegerField(
         default=0,
         validators=[MinValueValidator(0)],
@@ -177,10 +208,19 @@ class Promotion(models.Model):
     """
     Special offer or promotion for Coco Hotel.
     """
-    title = models.CharField(max_length=150, help_text="Offer headline")
+    title = models.CharField(max_length=150, help_text="Offer headline (fallback)")
+    title_en = models.CharField(max_length=150, blank=True, default="", help_text="Offer headline in English")
+    title_uz = models.CharField(max_length=150, blank=True, default="", help_text="Offer headline in Uzbek")
+    title_ru = models.CharField(max_length=150, blank=True, default="", help_text="Offer headline in Russian")
     slug = models.SlugField(max_length=160, unique=True, help_text="URL-safe unique identifier")
-    short_description = models.CharField(max_length=300, help_text="Concise summary for promotion cards")
-    description = models.TextField(help_text="Full promotional details and terms")
+    short_description = models.CharField(max_length=300, help_text="Concise summary for promotion cards (fallback)")
+    short_description_en = models.CharField(max_length=300, blank=True, default="", help_text="Summary in English")
+    short_description_uz = models.CharField(max_length=300, blank=True, default="", help_text="Summary in Uzbek")
+    short_description_ru = models.CharField(max_length=300, blank=True, default="", help_text="Summary in Russian")
+    description = models.TextField(help_text="Full promotional details and terms (fallback)")
+    description_en = models.TextField(blank=True, default="", help_text="Full promotional details and terms in English")
+    description_uz = models.TextField(blank=True, default="", help_text="Full promotional details and terms in Uzbek")
+    description_ru = models.TextField(blank=True, default="", help_text="Full promotional details and terms in Russian")
     image = models.ImageField(
         upload_to="promotions/",
         null=True,

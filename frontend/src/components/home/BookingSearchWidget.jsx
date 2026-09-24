@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../hooks/useLanguage';
 
 function getTodayString() {
   const now = new Date();
@@ -20,6 +21,7 @@ function getTomorrowString() {
 
 export default function BookingSearchWidget({ className = '' }) {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const today = getTodayString();
   const tomorrow = getTomorrowString();
 
@@ -33,7 +35,6 @@ export default function BookingSearchWidget({ className = '' }) {
     const newCheckIn = e.target.value;
     setCheckIn(newCheckIn);
     setValidationError('');
-    // Auto-advance check-out if check-out <= newCheckIn
     if (checkOut <= newCheckIn) {
       const nextDay = new Date(newCheckIn);
       nextDay.setDate(nextDay.getDate() + 1);
@@ -53,27 +54,23 @@ export default function BookingSearchWidget({ className = '' }) {
     e.preventDefault();
 
     if (!checkIn) {
-      setValidationError('Please select a check-in date.');
+      setValidationError(t('widget.selectCheckIn'));
       return;
     }
     if (!checkOut) {
-      setValidationError('Please select a check-out date.');
+      setValidationError(t('widget.selectCheckOut'));
       return;
     }
     if (checkIn < today) {
-      setValidationError('Check-in date cannot be in the past.');
+      setValidationError(t('widget.pastDateError'));
       return;
     }
     if (checkOut <= checkIn) {
-      setValidationError('Check-out date must be after check-in date.');
+      setValidationError(t('widget.dateOrderError'));
       return;
     }
     if (adults < 1) {
-      setValidationError('At least 1 adult guest is required.');
-      return;
-    }
-    if (children < 0) {
-      setValidationError('Children count cannot be negative.');
+      setValidationError(t('widget.adultRequired'));
       return;
     }
 
@@ -88,13 +85,13 @@ export default function BookingSearchWidget({ className = '' }) {
   };
 
   return (
-    <div className={`bg-[#141210] rounded-xs shadow-2xl border border-[#c5a880]/30 p-5 sm:p-7 lg:p-8 ${className}`}>
+    <div className={`bg-theme-surface rounded-xs shadow-2xl border border-theme p-5 sm:p-7 lg:p-8 transition-colors duration-200 ${className}`}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Check-In */}
           <div className="flex flex-col">
-            <label htmlFor="search-check-in" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2">
-              Check-In
+            <label htmlFor="search-check-in" className="text-[11px] font-semibold uppercase tracking-[0.2em] text-theme-gold mb-2">
+              {t('booking.checkIn')}
             </label>
             <input
               type="date"
@@ -103,14 +100,14 @@ export default function BookingSearchWidget({ className = '' }) {
               value={checkIn}
               onChange={handleCheckInChange}
               required
-              className="w-full px-3.5 py-2.5 bg-[#1a1714] border border-[#c5a880]/30 rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:border-[#c5a880] focus:outline-none focus:ring-1 focus:ring-[#c5a880]"
+              className="w-full px-3.5 py-2.5 bg-theme-input border border-theme rounded-xs text-sm text-theme-main focus:border-[var(--color-gold)] focus:outline-none transition-colors"
             />
           </div>
 
           {/* Check-Out */}
           <div className="flex flex-col">
-            <label htmlFor="search-check-out" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2">
-              Check-Out
+            <label htmlFor="search-check-out" className="text-[11px] font-semibold uppercase tracking-[0.2em] text-theme-gold mb-2">
+              {t('booking.checkOut')}
             </label>
             <input
               type="date"
@@ -119,43 +116,43 @@ export default function BookingSearchWidget({ className = '' }) {
               value={checkOut}
               onChange={handleCheckOutChange}
               required
-              className="w-full px-3.5 py-2.5 bg-[#1a1714] border border-[#c5a880]/30 rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:border-[#c5a880] focus:outline-none focus:ring-1 focus:ring-[#c5a880]"
+              className="w-full px-3.5 py-2.5 bg-theme-input border border-theme rounded-xs text-sm text-theme-main focus:border-[var(--color-gold)] focus:outline-none transition-colors"
             />
           </div>
 
           {/* Adults */}
           <div className="flex flex-col">
-            <label htmlFor="search-adults" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2">
-              Adults
+            <label htmlFor="search-adults" className="text-[11px] font-semibold uppercase tracking-[0.2em] text-theme-gold mb-2">
+              {t('rooms.adults')}
             </label>
             <select
               id="search-adults"
               value={adults}
               onChange={(e) => setAdults(Number(e.target.value))}
-              className="w-full px-3.5 py-2.5 bg-[#1a1714] border border-[#c5a880]/30 rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:border-[#c5a880] focus:outline-none focus:ring-1 focus:ring-[#c5a880]"
+              className="w-full px-3.5 py-2.5 bg-theme-input border border-theme rounded-xs text-sm text-theme-main focus:border-[var(--color-gold)] focus:outline-none transition-colors"
             >
               {[1, 2, 3, 4, 5, 6].map((num) => (
-                <option key={num} value={num} className="bg-[#141210] text-stone-100">
-                  {num} {num === 1 ? 'Adult' : 'Adults'}
+                <option key={num} value={num} className="bg-theme-surface text-theme-main">
+                  {num} {num === 1 ? t('booking.adult') : t('booking.adultsPlural')}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Children & Submit CTA */}
-          <div className="flex flex-col sm:col-span-2 lg:col-span-1">
-            <label htmlFor="search-children" className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#c5a880] mb-2">
-              Children
+          {/* Children */}
+          <div className="flex flex-col">
+            <label htmlFor="search-children" className="text-[11px] font-semibold uppercase tracking-[0.2em] text-theme-gold mb-2">
+              {t('rooms.children')}
             </label>
             <select
               id="search-children"
               value={children}
               onChange={(e) => setChildren(Number(e.target.value))}
-              className="w-full px-3.5 py-2.5 bg-[#1a1714] border border-[#c5a880]/30 rounded-xs text-sm text-stone-100 focus:bg-[#1f1b17] focus:border-[#c5a880] focus:outline-none focus:ring-1 focus:ring-[#c5a880]"
+              className="w-full px-3.5 py-2.5 bg-theme-input border border-theme rounded-xs text-sm text-theme-main focus:border-[var(--color-gold)] focus:outline-none transition-colors"
             >
               {[0, 1, 2, 3, 4].map((num) => (
-                <option key={num} value={num} className="bg-[#141210] text-stone-100">
-                  {num} {num === 1 ? 'Child' : 'Children'}
+                <option key={num} value={num} className="bg-theme-surface text-theme-main">
+                  {num} {num === 1 ? t('booking.child') : t('booking.childrenPlural')}
                 </option>
               ))}
             </select>
@@ -164,7 +161,7 @@ export default function BookingSearchWidget({ className = '' }) {
 
         {/* Validation error message */}
         {validationError && (
-          <p role="alert" className="text-xs text-rose-400 font-medium">
+          <p role="alert" className="text-xs text-rose-500 font-medium">
             {validationError}
           </p>
         )}
@@ -173,9 +170,9 @@ export default function BookingSearchWidget({ className = '' }) {
         <div className="pt-2 flex justify-end">
           <button
             type="submit"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest bg-[#c5a880] text-stone-950 rounded-xs hover:bg-[#dfc282] transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-[#c5a880] focus-visible:outline-offset-2"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 active:brightness-95 transition-all shadow-sm focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] cursor-pointer"
           >
-            Check Rooms &amp; Rates
+            {t('home.checkRooms')}
           </button>
         </div>
       </form>

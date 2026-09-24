@@ -1,14 +1,22 @@
 from rest_framework import serializers
+from core.language import get_request_language, resolve_multilingual_value
 from rooms.models import Amenity, Room, RoomImage
 
 
 class AmenitySerializer(serializers.ModelSerializer):
     """
-    Public serializer for room amenities.
+    Public serializer for room amenities with localized name.
     """
+    name = serializers.SerializerMethodField()
+
     class Meta:
         model = Amenity
         fields = ['id', 'name', 'icon']
+
+    def get_name(self, obj):
+        request = self.context.get('request')
+        lang = get_request_language(request)
+        return resolve_multilingual_value(obj, 'name', lang)
 
 
 class RoomImageSerializer(serializers.ModelSerializer):
@@ -32,10 +40,13 @@ class RoomImageSerializer(serializers.ModelSerializer):
 
 class RoomListSerializer(serializers.ModelSerializer):
     """
-    Concise public serializer for room catalogue listings.
+    Concise public serializer for room catalogue listings with localized fields.
     """
     amenities = AmenitySerializer(many=True, read_only=True)
     primary_image = RoomImageSerializer(read_only=True)
+    name = serializers.SerializerMethodField()
+    short_description = serializers.SerializerMethodField()
+    bed_type = serializers.SerializerMethodField()
 
     class Meta:
         model = Room
@@ -54,14 +65,33 @@ class RoomListSerializer(serializers.ModelSerializer):
             'primary_image',
         ]
 
+    def get_name(self, obj):
+        request = self.context.get('request')
+        lang = get_request_language(request)
+        return resolve_multilingual_value(obj, 'name', lang)
+
+    def get_short_description(self, obj):
+        request = self.context.get('request')
+        lang = get_request_language(request)
+        return resolve_multilingual_value(obj, 'short_description', lang)
+
+    def get_bed_type(self, obj):
+        request = self.context.get('request')
+        lang = get_request_language(request)
+        return resolve_multilingual_value(obj, 'bed_type', lang)
+
 
 class RoomDetailSerializer(serializers.ModelSerializer):
     """
-    Comprehensive public serializer for room detail view.
+    Comprehensive public serializer for room detail view with localized fields.
     """
     amenities = AmenitySerializer(many=True, read_only=True)
     images = RoomImageSerializer(many=True, read_only=True)
     primary_image = RoomImageSerializer(read_only=True)
+    name = serializers.SerializerMethodField()
+    short_description = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    bed_type = serializers.SerializerMethodField()
 
     class Meta:
         model = Room
@@ -83,3 +113,23 @@ class RoomDetailSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         ]
+
+    def get_name(self, obj):
+        request = self.context.get('request')
+        lang = get_request_language(request)
+        return resolve_multilingual_value(obj, 'name', lang)
+
+    def get_short_description(self, obj):
+        request = self.context.get('request')
+        lang = get_request_language(request)
+        return resolve_multilingual_value(obj, 'short_description', lang)
+
+    def get_description(self, obj):
+        request = self.context.get('request')
+        lang = get_request_language(request)
+        return resolve_multilingual_value(obj, 'description', lang)
+
+    def get_bed_type(self, obj):
+        request = self.context.get('request')
+        lang = get_request_language(request)
+        return resolve_multilingual_value(obj, 'bed_type', lang)
