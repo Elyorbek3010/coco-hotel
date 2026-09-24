@@ -11,6 +11,7 @@ import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 import BookingSummary from '../components/booking/BookingSummary';
 import RevealOnScroll from '../components/common/RevealOnScroll';
+import GoldWavePattern from '../components/common/GoldWavePattern';
 
 function getTodayString() {
   const now = new Date();
@@ -30,7 +31,7 @@ function getTomorrowString(baseDate) {
 }
 
 export default function BookingPage() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   usePageMeta({
     title: t('meta.bookingTitle'),
     description: t('meta.bookingDesc'),
@@ -128,7 +129,7 @@ export default function BookingPage() {
     return () => {
       isMounted = false;
     };
-  }, [searchParams]);
+  }, [searchParams, language]);
 
   // Selected room object
   const selectedRoom = rooms.find((r) => String(r.id) === String(roomId)) || null;
@@ -299,15 +300,35 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="py-12 sm:py-16 lg:py-20 bg-theme-main transition-colors duration-200">
-      <Container>
+    <div className="relative py-12 sm:py-16 lg:py-20 bg-theme-main transition-colors duration-200 overflow-hidden">
+      <GoldWavePattern variant="hero" className="opacity-20 pointer-events-none" />
+
+      <Container className="relative z-10">
+        {/* Step Indicator matching reference */}
+        <div className="flex items-center justify-center gap-4 sm:gap-8 mb-10 text-xs font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-theme-gold">
+            <span className="w-6 h-6 rounded-full bg-gold-metallic text-stone-950 flex items-center justify-center text-xs font-bold shadow-xs">1</span>
+            <span>{t('booking.details') || 'Details'}</span>
+          </div>
+          <span className="w-6 sm:w-10 h-px bg-theme-gold opacity-40" />
+          <div className="flex items-center gap-2 text-theme-gold">
+            <span className="w-6 h-6 rounded-full bg-gold-metallic text-stone-950 flex items-center justify-center text-xs font-bold shadow-xs">2</span>
+            <span>{t('booking.contact') || 'Contact'}</span>
+          </div>
+          <span className="w-6 sm:w-10 h-px bg-theme-gold opacity-40" />
+          <div className="flex items-center gap-2 text-theme-muted">
+            <span className="w-6 h-6 rounded-full bg-theme-elevated border border-theme text-theme-muted flex items-center justify-center text-xs font-bold">3</span>
+            <span>{t('booking.review') || 'Review'}</span>
+          </div>
+        </div>
+
         {/* HERO TITLE */}
         <RevealOnScroll variant="up">
           <div className="max-w-3xl mb-10 sm:mb-14">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-theme-gold mb-2">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-theme-gold mb-2">
               {t('booking.reservationsDesk')}
             </p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-semibold text-theme-main tracking-tight mb-4">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-theme-main tracking-tight mb-4">
               {t('booking.title')}
             </h1>
             <p className="text-base text-theme-muted leading-relaxed font-light">
@@ -489,7 +510,7 @@ export default function BookingPage() {
           /* MAIN FORM VIEW */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Form Column (7 cols) */}
-            <div className="lg:col-span-7 bg-theme-surface border border-theme rounded-xs p-6 sm:p-8 lg:p-10 shadow-2xl transition-colors duration-200">
+            <div className="lg:col-span-7 bg-theme-surface border border-[var(--color-gold-border)] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl transition-colors duration-200">
               <form onSubmit={handleSubmit} noValidate className="space-y-6">
                 {/* Form-level error alert */}
                 {generalError && (
@@ -795,7 +816,7 @@ export default function BookingPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full inline-flex items-center justify-center px-8 py-4 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 active:brightness-95 transition-all shadow-lg focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                    className="w-full inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-widest bg-gold-metallic gold-glow text-stone-950 rounded-full hover:brightness-110 active:scale-[0.98] transition-all shadow-lg focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {submitting ? (
                       <span className="flex items-center gap-2">

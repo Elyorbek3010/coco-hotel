@@ -13,10 +13,11 @@ import RoomCard from '../components/rooms/RoomCard';
 import BookingSearchWidget from '../components/home/BookingSearchWidget';
 import ServiceIcon from '../components/common/ServiceIcon';
 import RevealOnScroll from '../components/common/RevealOnScroll';
+import GoldWavePattern from '../components/common/GoldWavePattern';
 
 export default function HomePage() {
   const { hotelInfo } = useHotel();
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   const hotelName = hotelInfo?.name || 'Coco Hotel';
   usePageMeta({
@@ -76,7 +77,7 @@ export default function HomePage() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [language]);
 
   const handleRetryRooms = () => {
     setLoadingRooms(true);
@@ -92,65 +93,84 @@ export default function HomePage() {
       });
   };
 
-  const heroTitle = hotelInfo?.hero_title || 'Welcome to Coco Hotel';
-  const heroSubtitle = hotelInfo?.hero_subtitle || 'Your Quiet Corner of the City';
+  const heroSubtitle = hotelInfo?.hero_subtitle || 'Elegant rooms. Exceptional service. Unforgettable moments.';
   const aboutTitle = hotelInfo?.about_title || 'About Coco Hotel';
   const aboutText = hotelInfo?.about_text;
 
   return (
     <div className="flex flex-col bg-theme-main transition-colors duration-200">
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION (Split composition with real illuminated Coco Hotel exterior & wave ribbons) */}
       <section
         aria-label="Hotel Welcome Banner"
-        className="relative bg-theme-secondary text-theme-main overflow-hidden py-24 sm:py-32 lg:py-44 border-b border-theme transition-colors duration-200"
+        className="relative bg-theme-secondary text-theme-main overflow-hidden pt-12 pb-20 sm:pt-16 sm:pb-28 lg:pt-20 lg:pb-36 border-b border-theme transition-colors duration-200"
       >
-        {/* Subtle decorative radial gradient */}
-        <div
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[var(--color-gold)]/10 via-transparent to-transparent pointer-events-none"
-          aria-hidden="true"
-        />
+        {/* Subtle decorative gold wave-line pattern */}
+        <GoldWavePattern variant="hero" className="opacity-35 pointer-events-none" />
 
-        <Container className="relative z-10 text-center">
-          <RevealOnScroll variant="up">
-            <p className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-theme-gold bg-theme-elevated border border-theme rounded-full mb-6 shadow-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-theme-gold" />
-              {heroTitle}
-            </p>
-          </RevealOnScroll>
+        <Container className="relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Column: Bold luxury editorial typography & call to action */}
+            <div className="lg:col-span-6 text-left space-y-6">
+              <RevealOnScroll variant="up">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-theme-gold bg-theme-elevated/90 border border-[var(--color-gold-border)] rounded-full backdrop-blur-xs shadow-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-theme-gold" />
+                  COCO HOTEL · TASHKENT
+                </div>
+              </RevealOnScroll>
 
-          <RevealOnScroll variant="up" delay={100}>
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold tracking-[0.1em] text-theme-main max-w-4xl mx-auto mb-6">
-              {hotelName.toUpperCase()}
-            </h1>
-          </RevealOnScroll>
+              <RevealOnScroll variant="up" delay={100}>
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold tracking-tight text-theme-main leading-[1.08]">
+                  A Place Beyond Stay
+                </h1>
+              </RevealOnScroll>
 
-          <RevealOnScroll variant="up" delay={200}>
-            <p className="text-lg sm:text-xl lg:text-2xl text-theme-muted font-light max-w-2xl mx-auto mb-10 leading-relaxed font-sans">
-              {heroSubtitle}
-            </p>
-          </RevealOnScroll>
+              <RevealOnScroll variant="up" delay={200}>
+                <p className="text-base sm:text-lg lg:text-xl text-theme-muted font-light max-w-xl leading-relaxed font-sans">
+                  {heroSubtitle}
+                </p>
+              </RevealOnScroll>
 
-          <RevealOnScroll variant="up" delay={300}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                to="/booking"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 active:brightness-95 transition-all shadow-lg focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
-              >
-                {t('home.bookYourStay')}
-              </Link>
-              <Link
-                to="/rooms"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-xs font-semibold uppercase tracking-widest text-theme-gold border border-theme-gold bg-theme-surface hover:bg-theme-gold hover:text-stone-950 rounded-xs transition-all focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
-              >
-                {t('home.exploreRooms')}
-              </Link>
+              <RevealOnScroll variant="up" delay={300}>
+                <div className="flex flex-wrap items-center gap-4 pt-2">
+                  <Link
+                    to="/booking"
+                    className="inline-flex items-center justify-center px-8 py-3.5 text-xs font-bold uppercase tracking-widest bg-gold-metallic gold-glow text-stone-950 rounded-full hover:brightness-110 active:scale-[0.98] transition-all shadow-lg focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
+                  >
+                    {t('home.bookYourStay')} &rarr;
+                  </Link>
+                  <Link
+                    to="/rooms"
+                    className="inline-flex items-center justify-center px-7 py-3.5 text-xs font-bold uppercase tracking-widest text-theme-gold border border-[var(--color-gold)] bg-theme-surface/70 hover:bg-theme-elevated rounded-full transition-all focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
+                  >
+                    {t('home.exploreRooms')}
+                  </Link>
+                </div>
+              </RevealOnScroll>
             </div>
-          </RevealOnScroll>
+
+            {/* Right Column: High-End Twilight Exterior Photography with ambient gold glow */}
+            <div className="lg:col-span-6">
+              <RevealOnScroll variant="fade" delay={200}>
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-[var(--color-gold-border)] group">
+                  <img
+                    src="/images/hero_exterior.jpg"
+                    alt="Coco Hotel Luxury Architecture at Twilight"
+                    className="w-full h-80 sm:h-96 lg:h-[450px] object-cover group-hover:scale-102 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white/90 px-4 py-2.5 bg-black/50 backdrop-blur-md rounded-2xl border border-white/10">
+                    <span className="font-serif tracking-wider font-semibold">COCO HOTEL FAÇADE</span>
+                    <span className="text-[10px] uppercase tracking-widest text-amber-300 font-semibold">Tashkent, Uzbekistan</span>
+                  </div>
+                </div>
+              </RevealOnScroll>
+            </div>
+          </div>
         </Container>
       </section>
 
       {/* 2. COMPACT BOOKING SEARCH WIDGET */}
-      <section aria-label="Quick Room Availability Search" className="relative z-20 -mt-10 sm:-mt-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      <section aria-label="Quick Room Availability Search" className="relative z-20 -mt-8 sm:-mt-12 lg:-mt-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <RevealOnScroll variant="up" delay={150}>
           <BookingSearchWidget />
         </RevealOnScroll>
@@ -213,17 +233,19 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* 4. ABOUT COCO HOTEL SECTION */}
-      <section aria-label="About the Hotel" className="py-20 sm:py-28 bg-theme-secondary border-y border-theme transition-colors duration-200">
-        <Container>
+      {/* 4. ABOUT COCO HOTEL SECTION (Split layout matching reference with lobby photo) */}
+      <section aria-label="About the Hotel" className="relative py-20 sm:py-28 bg-theme-secondary border-y border-theme overflow-hidden transition-colors duration-200">
+        <GoldWavePattern variant="top-right" className="opacity-20 pointer-events-none" />
+
+        <Container className="relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Story column */}
-            <div className="lg:col-span-7 space-y-6">
+            <div className="lg:col-span-6 space-y-6">
               <RevealOnScroll variant="left">
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-theme-gold">
-                  {t('home.ourSanctuary')}
+                <p className="font-serif italic text-lg sm:text-xl text-theme-gold">
+                  Where comfort meets elegance
                 </p>
-                <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-theme-main tracking-tight mt-2 mb-4">
+                <h2 className="text-3xl sm:text-5xl font-serif font-bold text-theme-main tracking-tight mt-1 mb-4">
                   {aboutTitle}
                 </h2>
                 {aboutText ? (
@@ -232,13 +254,13 @@ export default function HomePage() {
                   </div>
                 ) : (
                   <p className="text-base text-theme-muted leading-relaxed font-light">
-                    A peaceful boutique retreat nestled in the city, offering curated accommodations, refined comfort, and authentic hospitality tailored to your journey.
+                    Coco Hotel is a modern boutique hotel offering a perfect blend of luxury, comfort, and genuine hospitality. Our mission is to create unforgettable experiences for every guest.
                   </p>
                 )}
                 <div className="pt-4">
                   <Link
                     to="/about"
-                    className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-theme-gold hover:underline transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
+                    className="inline-flex items-center justify-center px-7 py-3 text-xs font-bold uppercase tracking-widest bg-gold-metallic gold-glow text-stone-950 rounded-full hover:brightness-110 active:scale-[0.98] transition-all shadow-md focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
                   >
                     {t('home.readStory')} &rarr;
                   </Link>
@@ -246,22 +268,19 @@ export default function HomePage() {
               </RevealOnScroll>
             </div>
 
-            {/* Decorative showcase card */}
-            <div className="lg:col-span-5">
+            {/* Right column: Grand Luxury Hotel Lobby Visual */}
+            <div className="lg:col-span-6">
               <RevealOnScroll variant="right" delay={150}>
-                <div className="p-8 sm:p-10 bg-theme-surface border border-theme rounded-xs shadow-xl transition-colors duration-200">
-                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-theme-gold block mb-2">
-                    {t('home.hospitalityPhilosophy')}
-                  </span>
-                  <h3 className="font-serif text-2xl font-semibold text-theme-main mb-4">
-                    {t('home.tranquilityDetail')}
-                  </h3>
-                  <p className="text-sm text-theme-muted leading-relaxed mb-6 font-light">
-                    {t('home.tranquilityDetailText')}
-                  </p>
-                  <div className="pt-4 border-t border-theme flex items-center justify-between text-xs text-theme-muted">
-                    <span className="font-medium">{t('home.conciergeService')}</span>
-                    <span className="font-medium">{t('home.peacefulAmbience')}</span>
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-[var(--color-gold-border)] group">
+                  <img
+                    src="/images/hotel_lobby.jpg"
+                    alt="Coco Hotel Grand Lobby & Lounge"
+                    className="w-full h-80 sm:h-96 lg:h-[400px] object-cover group-hover:scale-102 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white/90 px-4 py-2 bg-black/50 backdrop-blur-md rounded-2xl border border-white/10">
+                    <span className="font-serif tracking-wider font-semibold">LOBBY & CONCIERGE LOUNGE</span>
+                    <span className="text-[10px] uppercase tracking-widest text-amber-300 font-semibold">Coco Hotel</span>
                   </div>
                 </div>
               </RevealOnScroll>
@@ -275,9 +294,9 @@ export default function HomePage() {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <RevealOnScroll variant="up" delay={0}>
-              <div className="p-8 bg-theme-surface border border-theme rounded-xs shadow-sm hover:shadow-md transition-all duration-300">
-                <span className="text-xs font-mono font-bold text-theme-gold block mb-3">01</span>
-                <h3 className="font-serif text-xl font-semibold text-theme-main mb-2">
+              <div className="p-8 bg-theme-surface border border-theme rounded-2xl shadow-md hover:shadow-xl hover:border-[var(--color-gold-border)] transition-all duration-300">
+                <span className="text-sm font-serif font-bold text-theme-gold block mb-3">01</span>
+                <h3 className="font-serif text-xl font-bold text-theme-main mb-2">
                   {t('home.highlight1Title')}
                 </h3>
                 <p className="text-sm text-theme-muted leading-relaxed font-light">
@@ -287,9 +306,9 @@ export default function HomePage() {
             </RevealOnScroll>
 
             <RevealOnScroll variant="up" delay={100}>
-              <div className="p-8 bg-theme-surface border border-theme rounded-xs shadow-sm hover:shadow-md transition-all duration-300">
-                <span className="text-xs font-mono font-bold text-theme-gold block mb-3">02</span>
-                <h3 className="font-serif text-xl font-semibold text-theme-main mb-2">
+              <div className="p-8 bg-theme-surface border border-theme rounded-2xl shadow-md hover:shadow-xl hover:border-[var(--color-gold-border)] transition-all duration-300">
+                <span className="text-sm font-serif font-bold text-theme-gold block mb-3">02</span>
+                <h3 className="font-serif text-xl font-bold text-theme-main mb-2">
                   {t('home.highlight2Title')}
                 </h3>
                 <p className="text-sm text-theme-muted leading-relaxed font-light">
@@ -299,9 +318,9 @@ export default function HomePage() {
             </RevealOnScroll>
 
             <RevealOnScroll variant="up" delay={200}>
-              <div className="p-8 bg-theme-surface border border-theme rounded-xs shadow-sm hover:shadow-md transition-all duration-300">
-                <span className="text-xs font-mono font-bold text-theme-gold block mb-3">03</span>
-                <h3 className="font-serif text-xl font-semibold text-theme-main mb-2">
+              <div className="p-8 bg-theme-surface border border-theme rounded-2xl shadow-md hover:shadow-xl hover:border-[var(--color-gold-border)] transition-all duration-300">
+                <span className="text-sm font-serif font-bold text-theme-gold block mb-3">03</span>
+                <h3 className="font-serif text-xl font-bold text-theme-main mb-2">
                   {t('home.highlight3Title')}
                 </h3>
                 <p className="text-sm text-theme-muted leading-relaxed font-light">
@@ -332,12 +351,12 @@ export default function HomePage() {
                 {services.map((service, idx) => (
                   <RevealOnScroll key={service.id} variant="up" delay={idx * 50}>
                     <div
-                      className="flex flex-col items-center text-center p-6 bg-theme-surface border border-theme rounded-xs hover:border-[var(--color-gold)] transition-all duration-300 shadow-sm"
+                      className="flex flex-col items-center text-center p-6 bg-theme-surface border border-theme rounded-2xl hover:border-[var(--color-gold)] hover:shadow-xl hover:shadow-[var(--color-gold)]/10 transition-all duration-300 shadow-md group"
                     >
-                      <div className="w-12 h-12 flex items-center justify-center rounded-full bg-theme-elevated text-theme-gold border border-theme mb-3">
-                        <ServiceIcon name={service.icon || service.name} className="w-6 h-6" />
+                      <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-theme-elevated text-theme-gold border border-[var(--color-gold-border)] mb-3 group-hover:scale-110 transition-transform duration-300">
+                        <ServiceIcon name={service.icon || service.name} className="w-7 h-7" />
                       </div>
-                      <h3 className="text-sm font-semibold text-theme-main mb-1">
+                      <h3 className="text-sm font-bold text-theme-main mb-1">
                         {service.name}
                       </h3>
                       {service.description && (
@@ -353,7 +372,7 @@ export default function HomePage() {
               <div className="text-center">
                 <Link
                   to="/services"
-                  className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-theme-gold hover:underline transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
+                  className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-theme-gold hover:underline transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
                 >
                   {t('home.exploreAllServices')} &rarr;
                 </Link>
@@ -369,16 +388,16 @@ export default function HomePage() {
           <RevealOnScroll variant="up">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-theme-gold mb-2">
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-theme-gold mb-2">
                   {t('home.gallerySubtitle')}
                 </p>
-                <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-theme-main tracking-tight">
+                <h2 className="text-3xl sm:text-5xl font-serif font-bold text-theme-main tracking-tight">
                   {t('home.galleryTitle')}
                 </h2>
               </div>
               <Link
                 to="/gallery"
-                className="mt-4 sm:mt-0 text-xs font-semibold uppercase tracking-widest text-theme-gold hover:underline transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
+                className="mt-4 sm:mt-0 text-xs font-bold uppercase tracking-widest text-theme-gold hover:underline transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] rounded-xs"
               >
                 {t('home.viewFullGallery')} &rarr;
               </Link>
@@ -388,38 +407,40 @@ export default function HomePage() {
           {loadingGallery ? (
             <LoadingState />
           ) : galleryImages.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {galleryImages.slice(0, 4).map((item, idx) => (
-                <RevealOnScroll key={item.id} variant="up" delay={idx * 100}>
-                  <div
-                    className="group relative aspect-4/3 overflow-hidden bg-theme-elevated rounded-xs border border-theme shadow-sm"
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.alt_text || item.title || 'Coco Hotel gallery view'}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    {item.title && (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+              {galleryImages.slice(0, 4).map((item, idx) => {
+                const fallbackImg = ['/images/hotel_lobby.jpg', '/images/hotel_dining.jpg', '/images/hotel_lounge.jpg', '/images/hotel_details.jpg'][idx % 4];
+                const displayImg = item.image && !item.image.includes('std_') ? item.image : fallbackImg;
+                return (
+                  <RevealOnScroll key={item.id || idx} variant="up" delay={idx * 100}>
+                    <div
+                      className="group relative aspect-4/3 overflow-hidden bg-theme-elevated rounded-2xl border border-theme hover:border-[var(--color-gold)] shadow-md hover:shadow-2xl transition-all duration-300"
+                    >
+                      <img
+                        src={displayImg}
+                        alt={item.alt_text || item.title || 'Coco Hotel gallery view'}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                        <span className="text-xs font-medium text-stone-100">
-                          {item.title}
+                        <span className="text-xs font-serif font-bold text-white tracking-wider">
+                          {item.title || 'Coco Hotel Experience'}
                         </span>
                       </div>
-                    )}
-                  </div>
-                </RevealOnScroll>
-              ))}
+                    </div>
+                  </RevealOnScroll>
+                );
+              })}
             </div>
           ) : (
-            <div className="p-8 bg-theme-surface border border-theme rounded-xs text-center max-w-md mx-auto">
+            <div className="p-8 bg-theme-surface border border-theme rounded-2xl text-center max-w-md mx-auto shadow-md">
               <p className="text-sm text-theme-muted mb-4 font-light">
                 {t('gallery.empty')}
               </p>
               <Link
                 to="/gallery"
-                className="text-xs font-semibold uppercase tracking-widest text-theme-gold hover:underline"
+                className="text-xs font-bold uppercase tracking-widest text-theme-gold hover:underline"
               >
                 {t('home.viewFullGallery')}
               </Link>
@@ -430,21 +451,23 @@ export default function HomePage() {
 
       {/* 8. PROMOTIONS PREVIEW (Shown only if active promotions exist) */}
       {!loadingPromotions && promotions.length > 0 && (
-        <section aria-label="Special Offers" className="py-20 sm:py-28 bg-theme-secondary border-y border-theme transition-colors duration-200">
-          <Container>
+        <section aria-label="Special Offers" className="relative py-20 sm:py-28 bg-theme-secondary border-y border-theme overflow-hidden transition-colors duration-200">
+          <GoldWavePattern variant="top-right" className="opacity-15 pointer-events-none" />
+
+          <Container className="relative z-10">
             <RevealOnScroll variant="up">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-theme-gold mb-2">
+                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-theme-gold mb-2">
                     {t('home.offersSubtitle')}
                   </p>
-                  <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-theme-main tracking-tight">
+                  <h2 className="text-3xl sm:text-5xl font-serif font-bold text-theme-main tracking-tight">
                     {t('home.offersTitle')}
                   </h2>
                 </div>
                 <Link
                   to="/promotions"
-                  className="mt-4 sm:mt-0 text-xs font-semibold uppercase tracking-widest text-theme-gold hover:underline"
+                  className="mt-4 sm:mt-0 text-xs font-bold uppercase tracking-widest text-theme-gold hover:underline"
                 >
                   {t('home.viewAllOffers')} &rarr;
                 </Link>
@@ -452,48 +475,54 @@ export default function HomePage() {
             </RevealOnScroll>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {promotions.slice(0, 3).map((promo, idx) => (
-                <RevealOnScroll key={promo.id} variant="up" delay={idx * 100}>
-                  <article
-                    className="bg-theme-surface border border-theme rounded-xs overflow-hidden shadow-md hover:shadow-xl hover:border-[var(--color-gold)] transition-all duration-300 flex flex-col"
-                  >
-                    {promo.image && (
-                      <div className="aspect-16/9 overflow-hidden bg-theme-elevated">
+              {promotions.slice(0, 3).map((promo, idx) => {
+                const fallbackPromoImg = idx % 2 === 0 ? '/images/room_deluxe.jpg' : '/images/hotel_dining.jpg';
+                const promoImg = promo.image && !promo.image.includes('std_') ? promo.image : fallbackPromoImg;
+
+                return (
+                  <RevealOnScroll key={promo.id || idx} variant="up" delay={idx * 100}>
+                    <article
+                      className="bg-theme-surface border border-theme rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-[var(--color-gold)] transition-all duration-300 flex flex-col group"
+                    >
+                      <div className="aspect-16/9 overflow-hidden bg-theme-elevated relative">
                         <img
-                          src={promo.image}
+                          src={promoImg}
                           alt={promo.title}
                           loading="lazy"
                           decoding="async"
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
+                        <span className="absolute top-3.5 left-3.5 bg-stone-950/80 border border-[var(--color-gold)] text-theme-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-xs shadow-md">
+                          Special Offer
+                        </span>
                       </div>
-                    )}
-                    <div className="p-6 flex-1 flex flex-col">
-                      <h3 className="font-serif text-xl font-semibold text-theme-main mb-2">
-                        {promo.title}
-                      </h3>
-                      <p className="text-sm text-theme-muted line-clamp-3 mb-6 leading-relaxed font-light">
-                        {promo.short_description}
-                      </p>
-                      <div className="mt-auto pt-4 border-t border-theme flex items-center justify-between text-xs">
-                        {promo.valid_until ? (
-                          <span className="text-theme-muted font-light">
-                            {t('home.validUntil')} {promo.valid_until}
-                          </span>
-                        ) : (
-                          <span className="text-theme-gold font-medium">{t('home.limitedAvailability')}</span>
-                        )}
-                        <Link
-                          to="/promotions"
-                          className="font-semibold text-theme-gold hover:underline uppercase tracking-wider text-[11px]"
-                        >
-                          {t('home.learnMore')} &rarr;
-                        </Link>
+                      <div className="p-6 flex-1 flex flex-col">
+                        <h3 className="font-serif text-xl font-bold text-theme-main mb-2 group-hover:text-theme-gold transition-colors">
+                          {promo.title}
+                        </h3>
+                        <p className="text-sm text-theme-muted line-clamp-3 mb-6 leading-relaxed font-light">
+                          {promo.short_description}
+                        </p>
+                        <div className="mt-auto pt-4 border-t border-theme flex items-center justify-between text-xs">
+                          {promo.valid_until ? (
+                            <span className="text-theme-muted font-light">
+                              {t('home.validUntil')} {promo.valid_until}
+                            </span>
+                          ) : (
+                            <span className="text-theme-gold font-bold">{t('home.limitedAvailability')}</span>
+                          )}
+                          <Link
+                            to="/promotions"
+                            className="inline-flex items-center px-4 py-2 text-xs font-bold uppercase tracking-widest bg-gold-metallic gold-glow text-stone-950 rounded-full hover:brightness-110 transition-all shadow-sm"
+                          >
+                            {t('home.learnMore')} &rarr;
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                </RevealOnScroll>
-              ))}
+                    </article>
+                  </RevealOnScroll>
+                );
+              })}
             </div>
           </Container>
         </section>

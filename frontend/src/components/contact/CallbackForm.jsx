@@ -117,7 +117,7 @@ export default function CallbackForm() {
   };
 
   return (
-    <div className="bg-theme-surface border border-theme rounded-xs p-6 sm:p-8 shadow-xl transition-colors duration-200">
+    <div className="bg-theme-surface border border-theme rounded-2xl p-6 sm:p-8 shadow-2xl transition-colors duration-200">
       <div className="mb-6">
         <h2 className="text-xl font-serif font-bold text-theme-main mb-1">
           {t('contact.requestCallback')}
@@ -280,7 +280,7 @@ export default function CallbackForm() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-wider bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 disabled:opacity-50 transition-all cursor-pointer shadow-sm focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
+              className="w-full inline-flex items-center justify-center px-6 py-3.5 text-xs font-bold uppercase tracking-wider bg-gold-metallic text-stone-950 rounded-xl hover:shadow-lg hover:shadow-[#dfba56]/25 disabled:opacity-50 transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-[#dfba56]"
             >
               {submitting ? (
                 <span className="inline-flex items-center gap-2">

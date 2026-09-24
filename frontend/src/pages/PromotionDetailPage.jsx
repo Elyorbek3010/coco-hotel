@@ -7,10 +7,11 @@ import Container from '../components/common/Container';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 import RevealOnScroll from '../components/common/RevealOnScroll';
+import GoldWavePattern from '../components/common/GoldWavePattern';
 
 export default function PromotionDetailPage() {
   const { slug } = useParams();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [promotion, setPromotion] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorStatus, setErrorStatus] = useState(null);
@@ -30,7 +31,7 @@ export default function PromotionDetailPage() {
     canonicalPath: `/promotions/${slug}`,
   });
 
-  const handleRetry = () => {
+  const fetchPromotion = () => {
     setLoading(true);
     setErrorStatus(null);
     getPromotionBySlug(slug)
@@ -65,7 +66,7 @@ export default function PromotionDetailPage() {
     return () => {
       isMounted = false;
     };
-  }, [slug]);
+  }, [slug, language]);
 
   if (loading) {
     return (
@@ -79,14 +80,15 @@ export default function PromotionDetailPage() {
 
   if (errorStatus === 404) {
     return (
-      <div className="py-24 sm:py-32 bg-theme-main transition-colors duration-200">
-        <Container className="text-center max-w-xl mx-auto space-y-6">
-          <span className="inline-block p-3 rounded-full bg-theme-elevated text-theme-gold border border-theme">
+      <div className="relative py-24 sm:py-32 bg-theme-main transition-colors duration-200 overflow-hidden">
+        <GoldWavePattern opacity={0.1} />
+        <Container className="relative z-10 text-center max-w-xl mx-auto space-y-6">
+          <span className="inline-block p-4 rounded-full bg-theme-elevated text-[#dfba56] border border-[#dfba56]/30 shadow-lg">
             <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
             </svg>
           </span>
-          <h1 className="text-3xl font-serif font-semibold text-theme-main">
+          <h1 className="text-3xl font-serif font-bold text-theme-main">
             {t('promotions.offerUnavailableTitle')}
           </h1>
           <p className="text-base text-theme-muted leading-relaxed font-light">
@@ -95,7 +97,7 @@ export default function PromotionDetailPage() {
           <div>
             <Link
               to="/promotions"
-              className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 text-xs font-bold uppercase tracking-widest bg-gold-metallic text-stone-950 rounded-xl hover:shadow-lg transition-all"
             >
               &larr; {t('promotions.returnToOffers')}
             </Link>
@@ -109,7 +111,7 @@ export default function PromotionDetailPage() {
     return (
       <div className="py-24 bg-theme-main transition-colors duration-200">
         <Container>
-          <ErrorState onRetry={handleRetry} />
+          <ErrorState onRetry={fetchPromotion} />
         </Container>
       </div>
     );
@@ -124,22 +126,22 @@ export default function PromotionDetailPage() {
   return (
     <div className="flex flex-col bg-theme-main transition-colors duration-200">
       {/* 1. BREADCRUMB NAVIGATION */}
-      <nav aria-label="Breadcrumb" className="bg-theme-secondary border-b border-theme py-3 transition-colors duration-200">
+      <nav aria-label="Breadcrumb" className="bg-theme-secondary border-b border-theme py-3.5 transition-colors duration-200">
         <Container>
           <ol className="flex items-center space-x-2 text-xs text-theme-muted">
             <li>
-              <Link to="/" className="hover:text-theme-gold transition-colors">
+              <Link to="/" className="hover:text-[#fae28e] transition-colors">
                 {t('nav.home')}
               </Link>
             </li>
             <li aria-hidden="true" className="text-theme-subtle">/</li>
             <li>
-              <Link to="/promotions" className="hover:text-theme-gold transition-colors">
+              <Link to="/promotions" className="hover:text-[#fae28e] transition-colors">
                 {t('nav.promotions')}
               </Link>
             </li>
             <li aria-hidden="true" className="text-theme-subtle">/</li>
-            <li className="text-theme-main font-medium truncate max-w-xs sm:max-w-md">
+            <li className="text-theme-main font-semibold truncate max-w-xs sm:max-w-md">
               {promotion.title}
             </li>
           </ol>
@@ -147,25 +149,26 @@ export default function PromotionDetailPage() {
       </nav>
 
       {/* 2. PROMOTION CONTENT */}
-      <article className="py-12 sm:py-20 bg-theme-main">
-        <Container>
+      <article className="relative py-12 sm:py-20 bg-theme-main overflow-hidden">
+        <GoldWavePattern opacity={0.08} />
+        <Container className="relative z-10">
           <div className="max-w-4xl mx-auto space-y-10">
             {/* Header info */}
             <RevealOnScroll variant="up">
               <div className="space-y-4">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-theme-gold bg-theme-elevated px-2.5 py-1 rounded-xs border border-theme">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#fae28e] bg-[#dfba56]/15 px-3 py-1 rounded-full border border-[#dfba56]/30">
                     {t('promotions.exclusivePrivilege')}
                   </span>
                   {hasValidity && (
-                    <span className="text-xs text-theme-muted font-mono">
+                    <span className="text-xs text-theme-muted font-mono bg-theme-surface px-3 py-1 rounded-full border border-theme">
                       {promotion.valid_from && `${t('home.validUntil')} ${promotion.valid_from} `}
                       {promotion.valid_until && `— ${promotion.valid_until}`}
                     </span>
                   )}
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-theme-main tracking-tight leading-tight">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-theme-main tracking-tight leading-tight">
                   {promotion.title}
                 </h1>
 
@@ -178,23 +181,25 @@ export default function PromotionDetailPage() {
             </RevealOnScroll>
 
             {/* Banner image if available */}
-            {promotion.image && (
-              <RevealOnScroll variant="fade">
-                <div className="aspect-16/9 overflow-hidden rounded-xs bg-theme-elevated border border-theme shadow-xl">
-                  <img
-                    src={promotion.image}
-                    alt={promotion.title}
-                    decoding="async"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </RevealOnScroll>
-            )}
+            <RevealOnScroll variant="fade">
+              <div className="aspect-16/9 overflow-hidden rounded-2xl bg-theme-elevated border border-theme shadow-2xl">
+                <img
+                  src={promotion.image || '/images/room_deluxe.jpg'}
+                  alt={promotion.title}
+                  decoding="async"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/room_deluxe.jpg';
+                  }}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </RevealOnScroll>
 
             {/* Detailed Description */}
             <RevealOnScroll variant="up">
-              <div className="bg-theme-surface border border-theme rounded-xs p-8 sm:p-12 space-y-6 shadow-xl transition-colors duration-200">
-                <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-theme-gold pb-2 border-b border-theme">
+              <div className="bg-theme-surface border border-theme rounded-2xl p-8 sm:p-12 space-y-6 shadow-2xl transition-colors duration-200">
+                <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-[#fae28e] pb-3 border-b border-theme">
                   {t('promotions.packageDetails')}
                 </h2>
 
@@ -206,12 +211,12 @@ export default function PromotionDetailPage() {
 
             {/* Booking & Concierge Actions */}
             <RevealOnScroll variant="up">
-              <div className="p-8 sm:p-10 bg-theme-surface rounded-xs border border-theme flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xl transition-colors duration-200">
+              <div className="p-8 sm:p-10 bg-theme-surface rounded-2xl border border-theme flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-2xl transition-colors duration-200">
                 <div className="space-y-1">
-                  <h3 className="font-serif text-xl font-semibold text-theme-main">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-theme-main">
                     {t('promotions.interested')}
                   </h3>
-                  <p className="text-xs text-theme-muted font-light">
+                  <p className="text-xs sm:text-sm text-theme-muted font-light">
                     {t('promotions.interestedDesc')}
                   </p>
                 </div>
@@ -219,13 +224,13 @@ export default function PromotionDetailPage() {
                 <div className="flex flex-wrap gap-4 shrink-0">
                   <Link
                     to="/booking"
-                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-theme-gold text-stone-950 rounded-xs hover:brightness-110 active:brightness-95 transition-all shadow-sm focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
+                    className="inline-flex items-center justify-center px-7 py-3.5 text-xs font-bold uppercase tracking-widest bg-gold-metallic text-stone-950 rounded-xl hover:shadow-lg hover:shadow-[#dfba56]/25 active:scale-95 transition-all"
                   >
                     {t('booking.requestBooking')}
                   </Link>
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center px-6 py-3 text-xs font-semibold uppercase tracking-widest border border-theme-gold text-theme-gold hover:bg-theme-elevated rounded-xs transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-gold)]"
+                    className="inline-flex items-center justify-center px-7 py-3.5 text-xs font-semibold uppercase tracking-widest border border-[#dfba56] text-[#dfba56] hover:bg-[#dfba56]/10 rounded-xl transition-all"
                   >
                     {t('home.contactDesk')}
                   </Link>
@@ -237,7 +242,7 @@ export default function PromotionDetailPage() {
             <div className="pt-4">
               <Link
                 to="/promotions"
-                className="inline-flex items-center text-xs font-semibold uppercase tracking-widest text-theme-gold hover:underline transition-colors"
+                className="inline-flex items-center text-xs font-semibold uppercase tracking-widest text-[#fae28e] hover:underline transition-colors"
               >
                 &larr; {t('promotions.backToOffers')}
               </Link>
