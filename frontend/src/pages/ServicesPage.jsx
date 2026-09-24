@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { getServices } from '../api/hotel';
 import Container from '../components/common/Container';
 import SectionTitle from '../components/common/SectionTitle';
@@ -9,7 +9,11 @@ import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 
 export default function ServicesPage() {
-  useDocumentTitle('Services');
+  usePageMeta({
+    title: 'Services',
+    description: 'Explore the services available to Coco Hotel guests.',
+    canonicalPath: '/services',
+  });
 
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);

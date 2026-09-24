@@ -1,13 +1,10 @@
-import { useEffect } from 'react';
+import { usePageMeta } from './usePageMeta';
 
+/**
+ * Backward-compatible hook delegating to centralized usePageMeta.
+ */
 export function useDocumentTitle(title) {
-  useEffect(() => {
-    const previousTitle = document.title;
-    document.title = title ? `${title} | Coco Hotel` : 'Coco Hotel';
-    return () => {
-      document.title = previousTitle;
-    };
-  }, [title]);
+  usePageMeta({ title });
 }
 
 export default useDocumentTitle;

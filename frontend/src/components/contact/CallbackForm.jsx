@@ -196,6 +196,7 @@ export default function CallbackForm() {
               id="callback_full_name"
               type="text"
               name="full_name"
+              autoComplete="name"
               value={formData.full_name}
               onChange={handleChange}
               placeholder="e.g. John Doe"
@@ -223,6 +224,7 @@ export default function CallbackForm() {
               id="callback_phone"
               type="tel"
               name="phone"
+              autoComplete="tel"
               value={formData.phone}
               onChange={handleChange}
               placeholder="e.g. +998 90 123 4567"

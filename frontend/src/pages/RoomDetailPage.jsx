@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { getRoomBySlug } from '../api/rooms';
 import { formatUZSPrice } from '../utils/formatters';
 import Container from '../components/common/Container';
@@ -18,9 +18,16 @@ export default function RoomDetailPage() {
   const [error, setError] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  // Set document title dynamically
+  // Set document metadata dynamically
   const pageTitle = room ? room.name : isNotFound ? 'Room Not Found' : 'Accommodations';
-  useDocumentTitle(pageTitle);
+  const pageDescription = room?.short_description
+    ? `${room.name} at Coco Hotel — ${room.short_description}`
+    : 'Discover refined accommodations and boutique comfort at Coco Hotel.';
+  usePageMeta({
+    title: pageTitle,
+    description: pageDescription,
+    canonicalPath: `/rooms/${slug}`,
+  });
 
   const fetchRoom = () => {
     setLoading(true);
@@ -172,6 +179,7 @@ export default function RoomDetailPage() {
                     <img
                       src={currentDisplayImage.image}
                       alt={currentDisplayImage.alt_text || room.name}
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -203,6 +211,7 @@ export default function RoomDetailPage() {
                           src={img.image}
                           alt={img.alt_text || `${room.name} thumbnail ${idx + 1}`}
                           loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover"
                         />
                       </button>

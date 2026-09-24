@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { useHotel } from '../hooks/useHotel';
 import { getRooms } from '../api/rooms';
 import { createBookingRequest } from '../api/bookings';
@@ -28,7 +28,12 @@ function getTomorrowString(baseDate) {
 }
 
 export default function BookingPage() {
-  useDocumentTitle('Book Your Stay');
+  usePageMeta({
+    title: 'Book Your Stay',
+    description:
+      'Send a booking request to Coco Hotel and let hotel staff confirm your stay.',
+    canonicalPath: '/booking',
+  });
   const { hotelInfo } = useHotel();
   const [searchParams] = useSearchParams();
 
@@ -683,6 +688,7 @@ export default function BookingPage() {
                     <input
                       type="text"
                       id="booking-fullname"
+                      autoComplete="name"
                       value={fullName}
                       onChange={(e) => {
                         setFullName(e.target.value);
@@ -714,6 +720,7 @@ export default function BookingPage() {
                       <input
                         type="tel"
                         id="booking-phone"
+                        autoComplete="tel"
                         value={phone}
                         onChange={(e) => {
                           setPhone(e.target.value);
@@ -744,6 +751,7 @@ export default function BookingPage() {
                       <input
                         type="email"
                         id="booking-email"
+                        autoComplete="email"
                         value={email}
                         onChange={(e) => {
                           setEmail(e.target.value);

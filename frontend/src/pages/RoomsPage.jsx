@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { getRooms } from '../api/rooms';
 import Container from '../components/common/Container';
 import SectionTitle from '../components/common/SectionTitle';
@@ -9,7 +9,11 @@ import ErrorState from '../components/common/ErrorState';
 import RoomCard from '../components/rooms/RoomCard';
 
 export default function RoomsPage() {
-  useDocumentTitle('Rooms');
+  usePageMeta({
+    title: 'Rooms',
+    description: 'Explore available room types, amenities and nightly rates at Coco Hotel.',
+    canonicalPath: '/rooms',
+  });
 
   const [searchParams] = useSearchParams();
   const searchParamsString = searchParams.toString();

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useHotel } from '../hooks/useHotel';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { getFeaturedRooms } from '../api/rooms';
 import { getServices, getGallery, getPromotions } from '../api/hotel';
 import Container from '../components/common/Container';
@@ -16,7 +16,12 @@ export default function HomePage() {
   const { hotelInfo } = useHotel();
 
   const hotelName = hotelInfo?.name || 'Coco Hotel';
-  useDocumentTitle(hotelName);
+  usePageMeta({
+    title: 'Coco Hotel',
+    description:
+      'Coco Hotel official website — explore rooms, hotel services and submit a booking request.',
+    canonicalPath: '/',
+  });
 
   // Dynamic sections state
   const [featuredRooms, setFeaturedRooms] = useState([]);
@@ -366,6 +371,7 @@ export default function HomePage() {
                     src={item.image}
                     alt={item.alt_text || item.title || 'Coco Hotel gallery view'}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   {item.title && (
@@ -427,6 +433,7 @@ export default function HomePage() {
                         src={promo.image}
                         alt={promo.title}
                         loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover"
                       />
                     </div>

@@ -208,6 +208,7 @@ export default function ContactForm() {
                 id="contact_full_name"
                 type="text"
                 name="full_name"
+                autoComplete="name"
                 value={formData.full_name}
                 onChange={handleChange}
                 placeholder="e.g. John Doe"
@@ -235,6 +236,7 @@ export default function ContactForm() {
                 id="contact_email"
                 type="email"
                 name="email"
+                autoComplete="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="e.g. guest@example.com"
@@ -264,6 +266,7 @@ export default function ContactForm() {
                 id="contact_phone"
                 type="tel"
                 name="phone"
+                autoComplete="tel"
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="e.g. +998 90 123 4567"
